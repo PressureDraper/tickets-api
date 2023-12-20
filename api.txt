@@ -1,7 +1,7 @@
 Endpoints:
     -CRUD especialidades ✅
-    -CRUD modulos
-    -CRUD ciclo
+    -CRUD modulos ✅
+    -CRUD ciclo ✅
     -CRUD periodo
     -CRUD docentes
     -CRUD residentes
