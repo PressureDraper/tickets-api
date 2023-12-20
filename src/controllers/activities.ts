@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { PropsGetActivitiesQueries } from "../interfaces/activitiesQueries";
-import { getActivitiesQuery, getActivityQuery } from "../helpers/activitiesQueries";
+import { PropsCreateActivitiesQueries, PropsGetActivitiesQueries } from "../interfaces/activitiesQueries";
+import { createActivityQuery, getActivitiesQuery, getActivityQuery } from "../helpers/activitiesQueries";
 
 export const getActivities = async (req: any, res: Response) => {
     try {
@@ -35,6 +35,32 @@ export const getActivity = async (req: any, res: Response) => {
                 ok: true,
                 msg: 'ok',
                 data: activity
+            })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
+
+export const createActivity = async (req: any, res: Response) => {
+    try {
+        const data: PropsCreateActivitiesQueries = req.body;
+        const record: any = await createActivityQuery({ ...data });
+
+        if (Object.keys(record).length === 0) {
+            res.status(409).json({
+                ok: false,
+                msg: 'Incoming entry is already created!'
+            })
+        } else {
+            res.status(200).json({
+                ok: true,
+                msg: 'ok',
+                data: record
             })
         }
     } catch (error) {
