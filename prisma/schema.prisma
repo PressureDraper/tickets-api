@@ -1,0 +1,187 @@
+//LA TABLA FALTANTE ES cat_clues pero esa únicamente se obtiene el respaldo de sica y se anexa
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ced_especialidades {
+  id           Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  nombre       String    @db.VarChar(50)
+  codigo       String    @db.Char(3)
+  grado_maximo String    @db.Char(2)
+  created_at   DateTime? @default(now()) @db.Timestamp(0)
+  updated_at   DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at   DateTime? @db.Timestamp(0)
+
+  ced_residentes ced_residentes[] //one specialty to many residents
+  ced_docentes   ced_docentes[]
+}
+
+model ced_residentes {
+  id              Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  matricula       Int       @db.Int
+  paterno         String    @db.VarChar(20)
+  materno         String    @db.VarChar(20)
+  nombre          String    @db.VarChar(30)
+  telefono        String?   @db.Char(10)
+  curp            String?   @db.Char(18)
+  rfc             String?   @db.VarChar(13)
+  correo          String?   @db.VarChar(255)
+  status          Int       @db.TinyInt
+  id_especialidad Int       @db.UnsignedInt
+  created_at      DateTime? @default(now()) @db.Timestamp(0)
+  updated_at      DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at      DateTime? @db.Timestamp(0)
+
+  ced_especialidades ced_especialidades @relation(fields: [id_especialidad], references: [id], onUpdate: Restrict)
+
+  ced_per_ciclo  ced_per_ciclo[]
+  ced_evaluacion ced_evaluacion[]
+}
+
+model ced_per_docente {
+  id            Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  id_evaluacion Int       @db.UnsignedInt
+  id_docente    Int       @db.UnsignedInt
+  created_at    DateTime? @default(now()) @db.Timestamp(0)
+  updated_at    DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at    DateTime? @db.Timestamp(0)
+
+  ced_evaluacion ced_evaluacion @relation(fields: [id_evaluacion], references: [id], onUpdate: Restrict)
+  ced_docentes   ced_docentes   @relation(fields: [id_docente], references: [id], onUpdate: Restrict)
+}
+
+model ced_docentes {
+  id              Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  matricula       Int       @db.Int
+  paterno         String    @db.VarChar(20)
+  materno         String    @db.VarChar(20)
+  nombre          String    @db.VarChar(30)
+  tipo_profesor   Int       @db.TinyInt
+  correo          String?   @db.VarChar(255)
+  status          Int       @db.TinyInt
+  id_especialidad Int       @db.UnsignedInt
+  created_at      DateTime? @default(now()) @db.Timestamp(0)
+  updated_at      DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at      DateTime? @db.Timestamp(0)
+
+  ced_especialidades ced_especialidades @relation(fields: [id_especialidad], references: [id], onUpdate: Restrict)
+
+  ced_per_docente ced_per_docente[]
+}
+
+model ced_ciclo {
+  id         Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  ciclo      String    @db.VarChar(9)
+  fec_ini    DateTime  @db.Date
+  fec_fin    DateTime  @db.Date
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at DateTime? @db.Timestamp(0)
+
+  ced_periodo   ced_periodo[]
+  ced_per_ciclo ced_per_ciclo[]
+}
+
+model ced_periodo {
+  id         Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  periodo    Int       @db.TinyInt
+  mes        String    @db.VarChar(10)
+  fec_ini    DateTime  @db.Date
+  fec_fin    DateTime  @db.Date
+  id_ciclo   Int       @db.UnsignedInt
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at DateTime? @db.Timestamp(0)
+
+  ced_ciclo ced_ciclo @relation(fields: [id_ciclo], references: [id], onUpdate: Restrict)
+
+  ced_evaluacion ced_evaluacion[]
+}
+
+model ced_per_ciclo {
+  id              Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  grado_residente String    @db.Char(2)
+  id_ciclo        Int       @db.UnsignedInt
+  id_residente    Int       @db.UnsignedInt
+  created_at      DateTime? @default(now()) @db.Timestamp(0)
+  updated_at      DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at      DateTime? @db.Timestamp(0)
+
+  ced_ciclo      ced_ciclo      @relation(fields: [id_ciclo], references: [id], onUpdate: Restrict)
+  ced_residentes ced_residentes @relation(fields: [id_residente], references: [id], onUpdate: Restrict)
+}
+
+model ced_modulo {
+  id         Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  modulo     String    @db.VarChar(100)
+  grado      String?    @db.Char(2)
+  created_at DateTime? @default(now()) @db.Timestamp(0)
+  updated_at DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at DateTime? @db.Timestamp(0)
+
+  ced_evaluacion ced_evaluacion[]
+}
+
+model ced_actividades {
+  id             Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  descripcion    String    @db.VarChar(100)
+  excelente      Decimal   @db.Decimal(10, 2)
+  bueno          Decimal   @db.Decimal(10, 2)
+  regular        Decimal   @db.Decimal(10, 2)
+  deficiente     Decimal   @db.Decimal(10, 2)
+  muy_deficiente Decimal   @db.Decimal(10, 2)
+  created_at     DateTime? @default(now()) @db.Timestamp(0)
+  updated_at     DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at     DateTime? @db.Timestamp(0)
+}
+
+model ced_evaluacion {
+  id              Int       @id @unique @default(autoincrement()) @db.UnsignedInt
+  grado_residente String    @db.Char(2)
+  act_1           Decimal?  @db.Decimal(10, 2)
+  act_2           Decimal?  @db.Decimal(10, 2)
+  act_3           Decimal?  @db.Decimal(10, 2)
+  act_4           Decimal?  @db.Decimal(10, 2)
+  act_5           Decimal?  @db.Decimal(10, 2)
+  act_6           Decimal?  @db.Decimal(10, 2)
+  act_7           Decimal?  @db.Decimal(10, 2)
+  act_8           Decimal?  @db.Decimal(10, 2)
+  act_9           Decimal?  @db.Decimal(10, 2)
+  act_10          Decimal?  @db.Decimal(10, 2)
+  act_11          Decimal?  @db.Decimal(10, 2)
+  act_12          Decimal?  @db.Decimal(10, 2)
+  act_13          Decimal?  @db.Decimal(10, 2)
+  act_14          Decimal?  @db.Decimal(10, 2)
+  act_15          Decimal?  @db.Decimal(10, 2)
+  act_16          Decimal?  @db.Decimal(10, 2)
+  total           Decimal?  @db.Decimal(10, 2)
+  pendiente       Int       @db.TinyInt
+  en_rotacion     Int       @db.TinyInt
+  faltas          String?   @db.Char(2)
+  fec_ord         DateTime? @db.Date
+  ex_ord          Decimal?  @db.Decimal(10, 2)
+  fec_extra       DateTime? @db.Date
+  ex_extra        Decimal?  @db.Decimal(10, 2)
+  observaciones   String?   @db.Text
+  enviado         Int?      @db.TinyInt
+  visto           Int?      @db.TinyInt
+  id_clue         Int?      @db.UnsignedInt
+  id_residente    Int       @db.UnsignedInt
+  id_periodo      Int       @db.UnsignedInt
+  id_modulo       Int       @db.UnsignedInt
+  created_at      DateTime? @default(now()) @db.Timestamp(0)
+  updated_at      DateTime? @default(now()) @db.Timestamp(0)
+  deleted_at      DateTime? @db.Timestamp(0)
+
+  ced_residentes ced_residentes @relation(fields: [id_residente], references: [id], onUpdate: Restrict)
+  ced_periodo    ced_periodo    @relation(fields: [id_periodo], references: [id], onUpdate: Restrict)
+  ced_modulo     ced_modulo     @relation(fields: [id_modulo], references: [id], onUpdate: Restrict)
+
+  ced_per_docente ced_per_docente[]
+}

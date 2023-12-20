@@ -1,0 +1,11 @@
+Endpoints:
+    -CRUD especialidades ✅
+    -CRUD modulos
+    -CRUD ciclo
+    -CRUD periodo
+    -CRUD docentes
+    -CRUD residentes
+    -CRUD ced_actividades
+    -CRUD ced_evaluacion
+
+Modified ID: 2742
