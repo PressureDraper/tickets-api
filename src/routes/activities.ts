@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
-import { createActivity, getActivities, getActivity } from "../controllers/activities";
+import { createActivity, deleteActivity, getActivities, getActivity, updateActivity } from "../controllers/activities";
 
 const router: Router = Router();
 
@@ -22,5 +22,9 @@ router.post('/', [
     check('muy_deficiente', "El campo muy_deficiente debe ser un valor numérico").isNumeric(),
     validateFields
 ], createActivity)
+
+router.put('/:id', updateActivity);
+
+router.delete('/:id', deleteActivity);
 
 export default router;
