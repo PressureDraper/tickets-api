@@ -3,9 +3,10 @@ Endpoints:
     -CRUD modulos ✅
     -CRUD ciclo ✅
     -CRUD ced_actividades ✅
-    -CRUD periodo
     -CRUD docentes
     -CRUD residentes
     -CRUD ced_evaluacion
+    -CRUD ced_per_ciclo
+    -CRUD periodo
 
 Modified ID: 2742
