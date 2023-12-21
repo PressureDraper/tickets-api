@@ -1,5 +1,5 @@
 import { db } from "../utils/db";
-import { PropsCreateActivitiesQueries, PropsGetActivitiesQueries } from '../interfaces/activitiesQueries';
+import { PropsCreateActivitiesQueries, PropsGetActivitiesQueries, PropsUpdateActivitiesQueries } from '../interfaces/activitiesQueries';
 
 export const getActivitiesQuery = ({ page = '0', limit = '10', descriptionFilter = '' }: PropsGetActivitiesQueries) => {
     return new Promise(async (resolve, reject) => {
@@ -81,6 +81,80 @@ export const createActivityQuery = ({descripcion, excelente, bueno, regular, def
                 })
                 resolve(record);
             }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const updateActivityQuery = ({ descripcion, excelente, bueno, regular, deficiente, muy_deficiente, activity_id }: PropsUpdateActivitiesQueries) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const record = await db.ced_actividades.findUnique({
+                where: {
+                    id: activity_id
+                }
+            });
+
+            const repeated: any = await db.ced_actividades.findFirst({ //check if description already exists
+                where: {
+                    descripcion
+                }
+            });
+
+            let data;
+
+            record != null && repeated === null ? ( //check if ID exists and data isn't repeated
+                await db.ced_actividades.update({
+                    where: {
+                        id: activity_id
+                    },
+                    data: {
+                        descripcion,
+                        excelente,
+                        bueno,
+                        regular,
+                        deficiente,
+                        muy_deficiente
+                    }
+                }),
+                data = await db.ced_actividades.findUnique({
+                    where: {
+                        id: activity_id
+                    }
+                }),
+                resolve([true, data])
+            ) : (
+                resolve([false, data])
+            )
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const deleteActivityQuery = (id: number) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const record = await db.ced_actividades.findUnique({
+                where: {
+                    id: id
+                }
+            });
+
+            record ? (
+                await db.ced_actividades.update({
+                    where: {
+                        id
+                    },
+                    data: {
+                        deleted_at: new Date().toISOString()
+                    }
+                }),
+
+                resolve(true)
+
+            ) : resolve(false);
         } catch (error) {
             reject(error);
         }
