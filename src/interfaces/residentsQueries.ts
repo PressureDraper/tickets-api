@@ -31,6 +31,5 @@ export interface PropsUpdateResidentsQueries {
     rfc?: string,
     correo?: string,
     status?: number,
-    codigo?: number,
     resident_id: number
 }

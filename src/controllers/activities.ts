@@ -75,7 +75,7 @@ export const createActivity = async (req: any, res: Response) => {
 export const updateActivity = async (req: any, res: Response) => {
     try {
         const id: number = parseInt(req.params.id);
-        const data: PropsUpdateActivitiesQueries = req.body;
+        const data: PropsUpdateActivitiesQueries = req.payload;
         const state: any = await updateActivityQuery({ ...data, activity_id: id })
 
         Object.keys(data).length !== 0 ? (

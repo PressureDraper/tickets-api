@@ -2,6 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import { createActivity, deleteActivity, getActivities, getActivity, updateActivity } from "../controllers/activities";
+import { cleanFields } from "../middlewares/clean-emptyFields";
 
 const router: Router = Router();
 
@@ -23,7 +24,9 @@ router.post('/', [
     validateFields
 ], createActivity)
 
-router.put('/:id', updateActivity);
+router.put('/:id', [
+    cleanFields
+], updateActivity);
 
 router.delete('/:id', deleteActivity);
 

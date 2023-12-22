@@ -96,14 +96,19 @@ export const updateActivityQuery = ({ descripcion, excelente, bueno, regular, de
                 }
             });
 
-            const repeated: any = await db.ced_actividades.findFirst({ //check if description already exists
-                where: {
-                    descripcion
-                }
-            });
+            let repeated;
+
+            repeated != undefined ? (
+                repeated = await db.ced_actividades.findFirst({ //check if description already exists
+                    where: {
+                        descripcion
+                    }
+                })
+            ) : repeated = null
+
 
             let data;
-
+            
             record != null && repeated === null ? ( //check if ID exists and data isn't repeated
                 await db.ced_actividades.update({
                     where: {

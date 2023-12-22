@@ -2,6 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import { createModule, deleteModule, getModules, getTotalModules, updateModule } from "../controllers/modules";
+import { cleanFields } from "../middlewares/clean-emptyFields";
 
 const router: Router = Router();
 
@@ -14,7 +15,9 @@ router.post('/', [
     validateFields
 ], createModule);
 
-router.put('/:id', updateModule);
+router.put('/:id', [
+    cleanFields
+], updateModule);
 
 router.delete('/:id', deleteModule);
 
