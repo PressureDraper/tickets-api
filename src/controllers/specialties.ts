@@ -67,7 +67,7 @@ export const createSpecialty = async (req: any, res: Response) => {
 export const updateSpecialty = async (req: any, res: Response) => {
     try {
         const id: number = parseInt(req.params.id);
-        const data: PropsUpdateSpecialtyQuery = req.body;
+        const data: PropsUpdateSpecialtyQuery = req.payload;
         const state: any = await updateSpecialtyQuery({ ...data, specialty_id: id })
 
         Object.keys(data).length !== 0 ? (

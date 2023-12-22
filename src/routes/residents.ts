@@ -1,7 +1,8 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
-import { createResidents, getResidents } from "../controllers/residents";
+import { createResidents, deleteResident, getResidents, updateResident } from "../controllers/residents";
+import { cleanFields } from "../middlewares/clean-emptyFields";
 
 const router: Router = Router();
 
@@ -17,5 +18,11 @@ router.post('/', [
     check('codigo', "El campo codigo es obligatorio").notEmpty(),
     validateFields
 ], createResidents);
+
+router.put('/:id', [
+    cleanFields
+], updateResident);
+
+router.delete('/:id', deleteResident);
 
 export default router;

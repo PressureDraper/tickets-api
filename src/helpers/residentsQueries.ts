@@ -1,5 +1,5 @@
 import { toString } from "express-validator/src/utils";
-import { PropsCreateResidentsQueries, PropsGetResidentsQueries } from "../interfaces/residentsQueries";
+import { PropsCreateResidentsQueries, PropsGetResidentsQueries, PropsUpdateResidentsQueries } from "../interfaces/residentsQueries";
 import { db } from "../utils/db";
 
 export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, nameFilter = '', rfcFilter = '', statusFilter = '', specialtyFilter = '' }: PropsGetResidentsQueries) => {
@@ -88,6 +88,89 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
                 })
                 resolve(record);
             }
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const updateResidentQuery = ({ matricula, paterno, materno, nombre, telefono, curp, rfc, correo, status, resident_id }: PropsUpdateResidentsQueries) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+
+            const record = await db.ced_residentes.findUnique({
+                where: {
+                    id: resident_id
+                }
+            });
+
+            const repeated: any = await db.ced_residentes.findFirst({ //check if registry already exists
+                where: {
+                    OR: [
+                        { matricula },
+                        { curp },
+                        { rfc }
+                    ]
+                }
+            });
+
+            let data;
+
+            record != null && repeated === null ? ( //check if ID exists and data isn't repeated
+                await db.ced_residentes.update({
+                    where: {
+                        id: resident_id
+                    },
+                    data: {
+                        matricula,
+                        paterno,
+                        materno,
+                        nombre,
+                        telefono,
+                        curp,
+                        rfc,
+                        correo,
+                        status
+                    }
+                }),
+                data = await db.ced_residentes.findUnique({
+                    where: {
+                        id: resident_id
+                    }
+                }),
+                resolve([true, data])
+
+            ) : (
+                resolve([false, data])
+            )
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const deleteResidentQuery = (id: number) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const record = await db.ced_residentes.findUnique({
+                where: {
+                    id: id
+                }
+            });
+
+            record ? (
+                await db.ced_residentes.update({
+                    where: {
+                        id
+                    },
+                    data: {
+                        deleted_at: new Date().toISOString()
+                    }
+                }),
+
+                resolve(true)
+
+            ) : resolve(false);
         } catch (error) {
             reject(error);
         }

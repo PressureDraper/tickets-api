@@ -67,7 +67,7 @@ export const createModule = async (req: any, res: Response) => {
 export const updateModule = async (req: any, res: Response) => {
     try {
         const id: number = parseInt(req.params.id);
-        const data: PropsUpdateModuleQuery = req.body;
+        const data: PropsUpdateModuleQuery = req.payload;
         const state: any = await updateModuleQuery({ ...data, module_id: id })
 
         Object.keys(data).length !== 0 ? (

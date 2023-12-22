@@ -90,11 +90,15 @@ export const updateModuleQuery = ({ modulo, grado, module_id }: PropsUpdateModul
                 }
             });
 
-            const repeated: any = await db.ced_modulo.findFirst({ //check if name already exists
-                where: {
-                    modulo
-                }
-            });
+            let repeated;
+
+            repeated != undefined ? (
+                repeated = await db.ced_modulo.findFirst({ //check if description already exists
+                    where: {
+                        modulo
+                    }
+                })
+            ) : repeated = null
 
             let data;
 
