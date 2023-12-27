@@ -1,6 +1,6 @@
 import { Response } from "express";
 import { PropsGetResPerCycleQueries, PropsCreateResPerCycleQueries } from '../interfaces/resPerCycle';
-import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery } from "../helpers/resPerCycleQueries";
+import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, migrateResPerCycleQuery } from "../helpers/resPerCycleQueries";
 
 export const getResPerCycle = async (req: any, res: Response) => {
     try {
@@ -38,6 +38,30 @@ export const createResPerCycle = async (req: any, res: Response) => {
                 data: record
             });
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
+
+export const migrateResPerCycle = async (req: any, res: Response) => {
+    try {
+        const id: number = parseInt(req.params.id);
+        const state = await migrateResPerCycleQuery(id);
+
+        state ?
+            res.status(200).json({
+                ok: true,
+                msg: 'Records migrated',
+            })
+            :
+            res.status(404).json({
+                ok: false,
+                msg: 'Record to delete not found'
+            })
     } catch (error) {
         console.log(error);
         res.status(500).json({

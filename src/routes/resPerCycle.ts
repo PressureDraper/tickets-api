@@ -2,7 +2,7 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
 import { cleanFields } from "../middlewares/clean-emptyFields";
-import { createResPerCycle, deleteResPerCycle, getResPerCycle } from "../controllers/resPerCycle";
+import { createResPerCycle, deleteResPerCycle, getResPerCycle, migrateResPerCycle } from "../controllers/resPerCycle";
 
 const router = Router();
 
@@ -14,6 +14,8 @@ router.post('/', [
     check('id_residente', "El campo residente es obligatorio").notEmpty(),
     validateFields
 ] , createResPerCycle )
+
+router.post('/:id', migrateResPerCycle );
 
 router.delete('/:id', deleteResPerCycle);
 
