@@ -1,14 +1,14 @@
 import { toString } from "express-validator/src/utils";
-import { PropsCreateResidentsQueries, PropsGetResidentsQueries, PropsUpdateResidentsQueries } from "../interfaces/residentsQueries";
+import { PropsCreateTeachersQueries, PropsGetTeachersQueries, PropsUpdateTeachersQueries } from "../interfaces/teachersQueries";
 import { db } from "../utils/db";
 
-export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, nameFilter = '', rfcFilter = '', statusFilter = '', specialtyFilter = '' }: PropsGetResidentsQueries) => {
+export const getTeachersQuery = ({ limit = '10', page = '0', enrollmentFilter, nameFilter = '', typeFilter, statusFilter, specialtyFilter = '' }: PropsGetTeachersQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
             const min = ((parseInt(page) + 1) * rowsPerPage) - rowsPerPage;
 
-            let listResidents = await db.ced_residentes.findMany({
+            let listTeachers = await db.ced_docentes.findMany({
                 where: {
                     matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
                     OR: [
@@ -16,11 +16,12 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
                         { paterno: { contains: nameFilter } },
                         { materno: { contains: nameFilter } }
                     ],
-                    rfc: rfcFilter ? { contains: rfcFilter } : {},
+                    tipo_profesor: typeFilter ? parseInt(typeFilter) : {},
                     status: statusFilter ? parseInt(statusFilter) : {},
                     ced_especialidades: {
                         codigo: specialtyFilter ? specialtyFilter : {}
-                    }
+                    },
+                    deleted_at: null
                 },
                 select: {
                     id: true,
@@ -28,9 +29,7 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
                     nombre: true,
                     paterno: true,
                     materno: true,
-                    telefono: true,
-                    curp: true,
-                    rfc: true,
+                    tipo_profesor: true,
                     correo: true,
                     status: true,
                     ced_especialidades: { select: { nombre: true, codigo: true } }
@@ -42,23 +41,19 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
                 take: rowsPerPage
             });
 
-            resolve(listResidents);
+            resolve(listTeachers);
         } catch (error) {
             reject(error);
         }
-    })
+    });
 }
 
-export const createResidentsQuery = ({ matricula, paterno, materno, nombre, telefono, curp, rfc, correo, status, codigo }: PropsCreateResidentsQueries) => {
+export const createTeachersQuery = ({ matricula, paterno, materno, nombre, tipo_profesor, correo, status, codigo }: PropsCreateTeachersQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const repeated: any = await db.ced_residentes.findFirst({ //check if enrollment already exists
+            const repeated: any = await db.ced_docentes.findFirst({ //check if enrollment already exists
                 where: {
-                    OR: [
-                        { matricula },
-                        { curp },
-                        { rfc }
-                    ]
+                    matricula
                 }
             });
 
@@ -76,15 +71,13 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
             if (repeated) {
                 resolve({}); //duplicated entry
             } else {
-                let record = await db.ced_residentes.create({
+                let record = await db.ced_docentes.create({
                     data: {
                         matricula,
                         paterno,
                         materno,
                         nombre,
-                        telefono,
-                        curp,
-                        rfc,
+                        tipo_profesor,
                         correo,
                         status,
                         id_especialidad: id
@@ -95,51 +88,44 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
         } catch (error) {
             reject(error);
         }
-    })
+    });
 }
 
-export const updateResidentQuery = ({ matricula, paterno, materno, nombre, telefono, curp, rfc, correo, status, resident_id }: PropsUpdateResidentsQueries) => {
+export const updateTeacherQuery = ({ matricula, paterno, materno, nombre, tipo_profesor, correo, status, teacher_id }: PropsUpdateTeachersQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
-
-            const record = await db.ced_residentes.findUnique({
+            const record = await db.ced_docentes.findUnique({
                 where: {
-                    id: resident_id
+                    id: teacher_id
                 }
             });
 
             const repeated: any = await db.ced_residentes.findFirst({ //check if registry already exists
                 where: {
-                    OR: [
-                        { matricula },
-                        { curp },
-                        { rfc }
-                    ]
+                    matricula
                 }
             });
 
             let data;
 
             record != null && repeated === null ? ( //check if ID exists and data isn't repeated
-                await db.ced_residentes.update({
+                await db.ced_docentes.update({
                     where: {
-                        id: resident_id
+                        id: teacher_id
                     },
                     data: {
                         matricula,
                         paterno,
                         materno,
                         nombre,
-                        telefono,
-                        curp,
-                        rfc,
+                        tipo_profesor,
                         correo,
                         status
                     }
                 }),
-                data = await db.ced_residentes.findUnique({
+                data = await db.ced_docentes.findUnique({
                     where: {
-                        id: resident_id
+                        id: teacher_id
                     }
                 }),
                 resolve([true, data])
@@ -150,20 +136,20 @@ export const updateResidentQuery = ({ matricula, paterno, materno, nombre, telef
         } catch (error) {
             reject(error);
         }
-    })
+    });
 }
 
-export const deleteResidentQuery = (id: number) => {
+export const deleteTeacherQuery = (id: number) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const record = await db.ced_residentes.findUnique({
+            const record = await db.ced_docentes.findUnique({
                 where: {
                     id: id
                 }
             });
 
             record ? (
-                await db.ced_residentes.update({
+                await db.ced_docentes.update({
                     where: {
                         id
                     },

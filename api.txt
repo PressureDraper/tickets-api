@@ -3,8 +3,8 @@ Endpoints:
     -CRUD modulos ✅
     -CRUD ciclo ✅
     -CRUD ced_actividades ✅
+    -CRUD residentes ✅
     -CRUD docentes
-    -CRUD residentes
     -CRUD ced_evaluacion
     -CRUD ced_per_ciclo
     -CRUD periodo
