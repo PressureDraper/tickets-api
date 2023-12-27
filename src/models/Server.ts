@@ -9,6 +9,8 @@ import routerModules from '../routes/modules';
 import routerCycles from '../routes/cycles';
 import routerActivities from '../routes/activities';
 import routerResidents from '../routes/residents';
+import routerTeachers from '../routes/teachers';
+import routerResPerCycle from '../routes/resPerCycle';
 
 class Server {
     private app: Express;
@@ -33,6 +35,8 @@ class Server {
         this.app.use( '/api/cycles', routerCycles);
         this.app.use( '/api/activites', routerActivities);
         this.app.use( '/api/residents', routerResidents);
+        this.app.use( '/api/teachers', routerTeachers);
+        this.app.use( '/api/percycle', routerResPerCycle);
     }
 
     execute() {
