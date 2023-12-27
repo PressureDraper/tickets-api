@@ -81,3 +81,31 @@ export const createResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente
         }
     })
 }
+
+export const deleteResPerCycleQuery = (id: number) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const record = await db.ced_per_ciclo.findUnique({
+                where: {
+                    id: id
+                }
+            });
+
+            record ? (
+                await db.ced_per_ciclo.update({
+                    where: {
+                        id
+                    },
+                    data: {
+                        deleted_at: new Date().toISOString()
+                    }
+                }),
+
+                resolve(true)
+
+            ) : resolve(false);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}

@@ -11,4 +11,3 @@ export interface PropsCreateResPerCycleQueries {
     id_ciclo: number,
     id_residente: number
 }
-
