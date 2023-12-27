@@ -82,6 +82,51 @@ export const createResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente
     })
 }
 
+export const migrateResPerCycleQuery = (id: number) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const regs : any = await db.ced_per_ciclo.findMany({
+                where: {
+                    id_ciclo: id
+                },
+                select: {
+                    grado_residente: true,
+                    id_ciclo: true,
+                    id_residente: true,
+                    ced_residentes: {
+                        select: {
+                            ced_especialidades: {
+                                select: {
+                                    nombre: true,
+                                    grado_maximo: true
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const specialties = await db.ced_especialidades.findMany();
+
+            const newPerCycle : any = [];
+
+            Object.keys(regs).map( key => {
+                specialties.forEach( sp => {
+                    if (regs[key]['ced_residentes']['ced_especialidades']['nombre'] == sp['nombre']) {
+                        console.log(regs[key]['grado_residente']);
+                        if (regs[key]['grado_residente'] ) {
+
+                        } //pending to compare rankings and create new array with new residents per cycle
+                    }
+                })
+            });
+            resolve(true);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 export const deleteResPerCycleQuery = (id: number) => {
     return new Promise(async (resolve, reject) => {
         try {
