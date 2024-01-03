@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { PropsGetResPerCycleQueries, PropsCreateResPerCycleQueries } from '../interfaces/resPerCycle';
-import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, migrateResPerCycleQuery } from "../helpers/resPerCycleQueries";
+import { PropsGetResPerCycleQueries, PropsCreateResPerCycleQueries, PropsUpdateResPerCycleQueries } from '../interfaces/resPerCycleQueries';
+import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, migrateResPerCycleQuery, updateResPerCycleQuery } from "../helpers/resPerCycleQueries";
 
 export const getResPerCycle = async (req: any, res: Response) => {
     try {
@@ -60,7 +60,40 @@ export const migrateResPerCycle = async (req: any, res: Response) => {
             :
             res.status(404).json({
                 ok: false,
-                msg: 'Record to delete not found'
+                msg: 'Error while running residents migration'
+            })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
+
+export const updateResPerCycle = async (req: any, res: Response) => {
+    try {
+        const id: number = parseInt(req.params.id);
+        const data: PropsUpdateResPerCycleQueries = req.payload;
+        const state: any = await updateResPerCycleQuery({ ...data, percycle_id: id })
+
+        Object.keys(data).length !== 0 ? (
+            state[0] ?
+                res.status(200).json({
+                    ok: true,
+                    msg: 'Record updated',
+                    data: state[1]
+                })
+                :
+                res.status(400).json({
+                    ok: false,
+                    msg: 'There was a problem trying to update data'
+                })
+        )
+            :
+            res.status(400).json({
+                ok: false,
+                msg: 'No data to update query'
             })
     } catch (error) {
         console.log(error);
