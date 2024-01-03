@@ -1,5 +1,7 @@
-import { PropsCreateResPerCycleQueries, PropsGetResPerCycleQueries } from "../interfaces/resPerCycle";
+import { toString } from "express-validator/src/utils";
+import { PropsCreateResPerCycleQueries, PropsGetResPerCycleQueries, PropsUpdateResPerCycleQueries } from "../interfaces/resPerCycleQueries";
 import { db } from "../utils/db";
+import { migrateCycle } from "./migrateResidents";
 
 export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '', cycleFilter, nameFilter = '' }: PropsGetResPerCycleQueries) => {
     return new Promise(async (resolve, reject) => {
@@ -85,9 +87,10 @@ export const createResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente
 export const migrateResPerCycleQuery = (id: number) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const regs : any = await db.ced_per_ciclo.findMany({
+            const regs: any = await db.ced_per_ciclo.findMany({
                 where: {
-                    id_ciclo: id
+                    id_ciclo: id,
+                    deleted_at: null
                 },
                 select: {
                     grado_residente: true,
@@ -106,25 +109,73 @@ export const migrateResPerCycleQuery = (id: number) => {
                 }
             });
 
-            const specialties = await db.ced_especialidades.findMany();
+            const newRes = migrateCycle(regs);
 
-            const newPerCycle : any = [];
-
-            Object.keys(regs).map( key => {
-                specialties.forEach( sp => {
-                    if (regs[key]['ced_residentes']['ced_especialidades']['nombre'] == sp['nombre']) {
-                        console.log(regs[key]['grado_residente']);
-                        if (regs[key]['grado_residente'] ) {
-
-                        } //pending to compare rankings and create new array with new residents per cycle
+            if (newRes.length != 0) { //verify there are residents to migrate
+                let repeated: any = await db.ced_per_ciclo.findFirst({
+                    where: {
+                        id_ciclo: id + 1,
+                        id_residente: newRes[0]['id_residente']
                     }
-                })
-            });
-            resolve(true);
+                });
+
+                regs.length != 0 && !repeated ? ( //verify current cycle do exists and migration hasn't been performed
+                    newRes.forEach(async (elm: any) => {
+                        await db.ced_per_ciclo.create({
+                            data: {
+                                grado_residente: elm['grado_residente'],
+                                id_ciclo: id + 1,
+                                id_residente: elm['id_residente']
+                            }
+                        })
+                    }),
+                    resolve(true)
+                ) : resolve(false);
+            } else {
+                resolve(false);
+            }
         } catch (error) {
             reject(error);
         }
     })
+}
+
+export const updateResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente, percycle_id }: PropsUpdateResPerCycleQueries) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const record = await db.ced_per_ciclo.findUnique({
+                where: {
+                    id: percycle_id
+                }
+            });
+
+            let data;
+
+            record != null ? ( //check if ID exists
+                await db.ced_per_ciclo.update({
+                    where: {
+                        id: percycle_id
+                    },
+                    data: {
+                        grado_residente,
+                        id_ciclo: id_ciclo,
+                        id_residente: id_residente
+                    }
+                }),
+                data = await db.ced_per_ciclo.findUnique({
+                    where: {
+                        id: percycle_id
+                    }
+                }),
+                resolve([true, data])
+
+            ) : (
+                resolve([false, data])
+            )
+        } catch (error) {
+            reject(error);
+        }
+    });
 }
 
 export const deleteResPerCycleQuery = (id: number) => {
