@@ -7,7 +7,7 @@ Endpoints:
     -CRUD docentes ✅
     -CRUD periodo ✅
     -CRUD ced_per_ciclo ✅
-    -CRUD ced_evaluacion
-    -CRUD ced_per_docente 
+    -CRUD ced_evaluacion ✅
+    -CRUD ced_per_docente ✅
 
 Modified ID: 2742
