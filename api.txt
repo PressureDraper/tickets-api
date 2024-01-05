@@ -4,9 +4,10 @@ Endpoints:
     -CRUD ciclo ✅
     -CRUD ced_actividades ✅
     -CRUD residentes ✅
-    -CRUD docentes
+    -CRUD docentes ✅
+    -CRUD periodo ✅
+    -CRUD ced_per_ciclo ✅
     -CRUD ced_evaluacion
-    -CRUD ced_per_ciclo
-    -CRUD periodo
+    -CRUD ced_per_docente 
 
 Modified ID: 2742
