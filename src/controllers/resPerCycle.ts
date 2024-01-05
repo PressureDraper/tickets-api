@@ -5,7 +5,6 @@ import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, mi
 export const getResPerCycle = async (req: any, res: Response) => {
     try {
         const params: PropsGetResPerCycleQueries = req.query;
-        console.log(params);
         let queryPerCycle = await getResPerCycleQuery({ ...params });
         res.status(200).json({
             ok: true,
