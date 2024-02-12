@@ -1,12 +1,9 @@
 import { db } from "../utils/db";
 import { PropsCreateSpecialtyQuery, PropsGetSpecialtiesQuery, PropsGetTotalSpecialtiesQuery, PropsUpdateSpecialtyQuery } from '../interfaces/specialtiesQueries';
 
-export const getSpecialtiesQuery = ({ page = '0', limit = '10', nameFilter = '', codeFilter = '', rankFilter = '' }: PropsGetSpecialtiesQuery) => {
+export const getSpecialtiesQuery = ({ nameFilter = '', codeFilter = '', rankFilter = '' }: PropsGetSpecialtiesQuery) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const rowsPerPage = parseInt(limit);
-            const min = ((parseInt(page) + 1) * rowsPerPage) - rowsPerPage;
-
             let listSpecialties: any = await db.ced_especialidades.findMany({
                 where: {
                     nombre: nameFilter ? { contains: nameFilter } : {},
@@ -22,9 +19,7 @@ export const getSpecialtiesQuery = ({ page = '0', limit = '10', nameFilter = '',
                 },
                 orderBy: {
                     id: 'asc'
-                },
-                skip: min,
-                take: rowsPerPage
+                }
             })
 
             resolve(listSpecialties);

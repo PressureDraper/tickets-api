@@ -4,10 +4,10 @@ import { createSpecialty, deleteSpecialty, getSpecialties, getTotalSpecialties, 
 import { validateFields } from "../middlewares/validate-fields";
 import { cleanFields } from "../middlewares/clean-emptyFields";
 
-const router : Router = Router();
+const router: Router = Router();
 
 router.get('/', getSpecialties);
-router.get( '/total/count', getTotalSpecialties );
+router.get('/total/count', getTotalSpecialties);
 
 router.post('/', [
     check('nombre', 'El campo nombre es obligatorio').not().isEmpty(),
@@ -16,9 +16,9 @@ router.post('/', [
     validateFields
 ], createSpecialty)
 
-router.put('/:id',[
+router.put('/:id', [
     cleanFields
-] ,updateSpecialty);
+], updateSpecialty);
 
 router.delete('/:id', deleteSpecialty)
 

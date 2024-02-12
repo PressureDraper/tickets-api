@@ -1,9 +1,8 @@
-import { toString } from "express-validator/src/utils";
-import { PropsCreateResPerCycleQueries, PropsGetResPerCycleQueries, PropsUpdateResPerCycleQueries } from "../interfaces/resPerCycleQueries";
+import { PropsCreateResPerCycleQueries, PropsGetResPerCycleQueries, PropsGetTotalResPerCycleQueries, PropsUpdateResPerCycleQueries } from "../interfaces/resPerCycleQueries";
 import { db } from "../utils/db";
 import { migrateCycle } from "./migrateResidents";
 
-export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '', cycleFilter, nameFilter = '' }: PropsGetResPerCycleQueries) => {
+export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '', cycleFilter, nameFilter = '', enrollmentFilter, specialtyFilter = '' }: PropsGetResPerCycleQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
@@ -18,7 +17,12 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
                             { nombre: { contains: nameFilter } },
                             { paterno: { contains: nameFilter } },
                             { materno: { contains: nameFilter } }
-                        ]
+                        ],
+                        matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
+                        ced_especialidades: {
+                            nombre: specialtyFilter ? {contains: specialtyFilter} : {}
+                        },
+                        status: 1 //active
                     },
                     deleted_at: null
                 },
@@ -28,6 +32,7 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
                     id_ciclo: true,
                     ced_residentes: {
                         select: {
+                            id: true,
                             matricula: true,
                             nombre: true,
                             paterno: true,
@@ -51,6 +56,34 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
 
             resolve(listResPerCycle);
         } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const getTotalResPerCycle = ({ cycleFilter, specialtyFilter = '' }: PropsGetTotalResPerCycleQueries) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let countListRes = await db.ced_per_ciclo.count({
+                where: {
+                    id_ciclo: cycleFilter ? parseInt(cycleFilter) : {},
+                    ced_residentes: {
+                        ced_especialidades: {
+                            nombre: specialtyFilter ? { contains: specialtyFilter } : {}
+                        },
+                        status: 1 //active
+                    },
+                    deleted_at: null
+                }
+            })
+
+            countListRes ? (
+
+                resolve(countListRes)
+
+            ) : resolve(0)
+        } catch (error) {
+            console.log(error);
             reject(error);
         }
     })

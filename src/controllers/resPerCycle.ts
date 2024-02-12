@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { PropsGetResPerCycleQueries, PropsCreateResPerCycleQueries, PropsUpdateResPerCycleQueries } from '../interfaces/resPerCycleQueries';
-import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, migrateResPerCycleQuery, updateResPerCycleQuery } from "../helpers/resPerCycleQueries";
+import { PropsGetResPerCycleQueries, PropsCreateResPerCycleQueries, PropsUpdateResPerCycleQueries, PropsGetTotalResPerCycleQueries } from '../interfaces/resPerCycleQueries';
+import { createResPerCycleQuery, deleteResPerCycleQuery, getResPerCycleQuery, getTotalResPerCycle, migrateResPerCycleQuery, updateResPerCycleQuery } from "../helpers/resPerCycleQueries";
 
 export const getResPerCycle = async (req: any, res: Response) => {
     try {
@@ -10,6 +10,24 @@ export const getResPerCycle = async (req: any, res: Response) => {
             ok: true,
             msg: 'Ok',
             data: queryPerCycle
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
+
+export const getTotalResPer = async (req: any, res: Response) => {
+    try {
+        const params: PropsGetTotalResPerCycleQueries = req.query;
+        let queryTotalRes = await getTotalResPerCycle({ ...params });
+        res.status(200).json({
+            ok: true,
+            msg: 'Ok',
+            data: queryTotalRes
         });
     } catch (error) {
         console.log(error);

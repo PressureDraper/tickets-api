@@ -1,10 +1,17 @@
 export interface PropsGetEvaluationQueries {
-    page: string
+    page: string,
     limit: string,
-    residentidFilter: string
+    residentidFilter: string,
     nameFilter: string,
     monthFilter: string,
-    moduleFilter: string
+    moduleFilter: string,
+    enrollmentFilter: string,
+    cycleFilter: string
+}
+
+export interface PropsGetTotalEvaluationsQuery {
+    residentidFilter: string,
+    enrollmentFilter: string
 }
 
 export interface PropsCreateEvaluationQueries {

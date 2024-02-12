@@ -1,7 +1,7 @@
-import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
+import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
-export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter }: PropsGetEvaluationQueries) => {
+export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter, enrollmentFilter = '', cycleFilter = '' }: PropsGetEvaluationQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
@@ -15,9 +15,13 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                             { nombre: { contains: nameFilter } },
                             { paterno: { contains: nameFilter } },
                             { materno: { contains: nameFilter } }
-                        ]
+                        ],
+                        matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {}
                     },
                     ced_periodo: {
+                        ced_ciclo: {
+                            ciclo: cycleFilter ? { contains: cycleFilter } : {}
+                        },
                         mes: monthFilter ? { contains: monthFilter } : {},
                     },
                     ced_modulo: {
@@ -64,10 +68,10 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         }
                     },
                     ced_periodo: {
-                        select: { id: true, periodo: true, mes: true, fec_ini: true, fec_fin: true }
+                        select: { id: true, mes: true, fec_ini: true, fec_fin: true }
                     },
                     ced_modulo: {
-                        select: { modulo: true, grado: true }
+                        select: { id: true, modulo: true, grado: true }
                     },
                     ced_per_docente: {
                         select: {
@@ -86,6 +90,31 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
 
             resolve(listEvaluation);
         } catch (error) {
+            reject(error);
+        }
+    })
+}
+
+export const getTotalEvaluationsQuery = ({ residentidFilter, enrollmentFilter = '' }: PropsGetTotalEvaluationsQuery) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let countListEvaluations = await db.ced_evaluacion.count({
+                where: {
+                    id_residente: residentidFilter ? parseInt(residentidFilter) : {},
+                    ced_residentes: {
+                        matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
+                    },
+                    deleted_at: null
+                }
+            })
+
+            countListEvaluations ? (
+
+                resolve(countListEvaluations)
+
+            ) : resolve(0)
+        } catch (error) {
+            console.log(error);
             reject(error);
         }
     })

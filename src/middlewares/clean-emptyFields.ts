@@ -1,5 +1,4 @@
 import { Response, NextFunction } from 'express';
-import { PropsUpdateResidentsQueries } from '../interfaces/residentsQueries';
 
 export const cleanFields = (req: any, res: Response, next: NextFunction) => {
     const data: any = req.body;
