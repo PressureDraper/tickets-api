@@ -3,7 +3,14 @@ export interface PropsGetResPerCycleQueries {
     limit: string,
     rankFilter: string,
     cycleFilter: string,
-    nameFilter: string
+    nameFilter: string,
+    enrollmentFilter: string,
+    specialtyFilter: string
+}
+
+export interface PropsGetTotalResPerCycleQueries {
+    cycleFilter: string;
+    specialtyFilter: string;
 }
 
 export interface PropsCreateResPerCycleQueries {

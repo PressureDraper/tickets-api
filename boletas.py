@@ -254,9 +254,9 @@ if __name__ == "__main__":
         act_15 = eva[19]
         act_16 = eva[20]
         total = eva[21]
-        pendiente = 0 #0 = false - 1 = true
+        pendiente = 1 if (numberFormat(eva[24]) > 0) else 0 #0 = false - 1 = true
         rotacion = 0 #0 = false - 1 = true
-        faltas = numberFormat(eva[24])
+        faltas = numberFormat(eva[26])
         fec_ord = strFormat(eva[27])
         ex_ord = numberFormat(eva[28])
         fec_extra = strFormat(eva[29])

@@ -2,12 +2,9 @@ import { PropsGetCyclesQueries } from "../interfaces/cyclesQueries";
 import { db } from "../utils/db";
 import { getDate, getDays } from "./periodDays";
 
-export const getCyclesQuery = ({ page = '0', limit = '10', cycleFilter = '' }: PropsGetCyclesQueries) => {
+export const getCyclesQuery = ({ cycleFilter = '' }: PropsGetCyclesQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const rowsPerPage = parseInt(limit);
-            const min = ((parseInt(page) + 1) * rowsPerPage) - rowsPerPage;
-
             let listCycles: any = await db.ced_ciclo.findMany({
                 where: {
                     ciclo: cycleFilter ? { contains: cycleFilter } : {},
@@ -32,9 +29,7 @@ export const getCyclesQuery = ({ page = '0', limit = '10', cycleFilter = '' }: P
                 },
                 orderBy: {
                     id: 'desc'
-                },
-                skip: min,
-                take: rowsPerPage
+                }
             });
 
             resolve(listCycles);
