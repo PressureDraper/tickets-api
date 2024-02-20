@@ -6,7 +6,8 @@ export interface PropsGetEvaluationQueries {
     monthFilter: string,
     moduleFilter: string,
     enrollmentFilter: string,
-    cycleFilter: string
+    cycleFilter: string,
+    cluePending: string
 }
 
 export interface PropsGetTotalEvaluationsQuery {
@@ -82,6 +83,7 @@ export interface PropsUpdateEvaluationQueries {
     id_clue?: number | null,
     id_residente?: number,
     id_periodo?: number,
-    id_modulo?: number
+    id_modulo?: number,
+    id_docentes?: number[]
     evaluation_id: number
 }

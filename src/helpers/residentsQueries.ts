@@ -17,7 +17,7 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
                         { materno: { contains: nameFilter } }
                     ],
                     rfc: rfcFilter ? { contains: rfcFilter } : {},
-                    status: statusFilter ? parseInt(statusFilter) : {},
+                    status: 1, //activos
                     ced_especialidades: {
                         codigo: specialtyFilter ? specialtyFilter : {}
                     }

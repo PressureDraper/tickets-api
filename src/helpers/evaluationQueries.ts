@@ -1,92 +1,164 @@
 import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
-export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter, enrollmentFilter = '', cycleFilter = '' }: PropsGetEvaluationQueries) => {
+export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter, enrollmentFilter = '', cycleFilter = '', cluePending }: PropsGetEvaluationQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
             const min = ((parseInt(page) + 1) * rowsPerPage) - rowsPerPage;
 
-            let listEvaluation = await db.ced_evaluacion.findMany({
-                where: {
-                    id_residente: residentidFilter ? parseInt(residentidFilter) : {},
-                    ced_residentes: {
-                        OR: [
-                            { nombre: { contains: nameFilter } },
-                            { paterno: { contains: nameFilter } },
-                            { materno: { contains: nameFilter } }
-                        ],
-                        matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {}
-                    },
-                    ced_periodo: {
-                        ced_ciclo: {
-                            ciclo: cycleFilter ? { contains: cycleFilter } : {}
+            let listEvaluation;
+
+            if (cluePending == 'false') {
+                listEvaluation = await db.ced_evaluacion.findMany({
+                    where: {
+                        id_residente: residentidFilter ? parseInt(residentidFilter) : {},
+                        ced_residentes: {
+                            OR: [
+                                { nombre: { contains: nameFilter } },
+                                { paterno: { contains: nameFilter } },
+                                { materno: { contains: nameFilter } }
+                            ],
+                            matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {}
                         },
-                        mes: monthFilter ? { contains: monthFilter } : {},
+                        ced_periodo: {
+                            ced_ciclo: {
+                                ciclo: cycleFilter ? { contains: cycleFilter } : {}
+                            },
+                            mes: monthFilter ? { contains: monthFilter } : {},
+                        },
+                        ced_modulo: {
+                            modulo: moduleFilter ? { contains: moduleFilter } : {},
+                        },
+                        deleted_at: null
                     },
-                    ced_modulo: {
-                        modulo: moduleFilter ? { contains: moduleFilter } : {},
-                    },
-                    deleted_at: null
-                },
-                select: {
-                    id: true,
-                    grado_residente: true,
-                    act_1: true,
-                    act_2: true,
-                    act_3: true,
-                    act_4: true,
-                    act_5: true,
-                    act_6: true,
-                    act_7: true,
-                    act_8: true,
-                    act_9: true,
-                    act_10: true,
-                    act_11: true,
-                    act_12: true,
-                    act_13: true,
-                    act_14: true,
-                    act_15: true,
-                    act_16: true,
-                    total: true,
-                    pendiente: true,
-                    en_rotacion: true,
-                    faltas: true,
-                    fec_ord: true,
-                    ex_ord: true,
-                    fec_extra: true,
-                    ex_extra: true,
-                    observaciones: true,
-                    enviado: true,
-                    visto: true,
-                    id_clue: true,
-                    ced_residentes: {
-                        select: {
-                            id: true, matricula: true, paterno: true, materno: true, nombre: true, ced_especialidades: {
-                                select: { nombre: true }
+                    select: {
+                        id: true,
+                        grado_residente: true,
+                        act_1: true,
+                        act_2: true,
+                        act_3: true,
+                        act_4: true,
+                        act_5: true,
+                        act_6: true,
+                        act_7: true,
+                        act_8: true,
+                        act_9: true,
+                        act_10: true,
+                        act_11: true,
+                        act_12: true,
+                        act_13: true,
+                        act_14: true,
+                        act_15: true,
+                        act_16: true,
+                        total: true,
+                        pendiente: true,
+                        en_rotacion: true,
+                        faltas: true,
+                        fec_ord: true,
+                        ex_ord: true,
+                        fec_extra: true,
+                        ex_extra: true,
+                        observaciones: true,
+                        enviado: true,
+                        visto: true,
+                        id_clue: true,
+                        ced_residentes: {
+                            select: {
+                                id: true, matricula: true, paterno: true, materno: true, nombre: true, ced_especialidades: {
+                                    select: { nombre: true }
+                                }
+                            }
+                        },
+                        ced_periodo: {
+                            select: { id: true, mes: true, fec_ini: true, fec_fin: true }
+                        },
+                        ced_modulo: {
+                            select: { id: true, modulo: true, grado: true }
+                        },
+                        ced_per_docente: {
+                            select: {
+                                id: true, ced_docentes: {
+                                    select: { matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true }
+                                }
                             }
                         }
                     },
-                    ced_periodo: {
-                        select: { id: true, mes: true, fec_ini: true, fec_fin: true }
+                    orderBy: {
+                        id: "desc"
                     },
-                    ced_modulo: {
-                        select: { id: true, modulo: true, grado: true }
+                    skip: min,
+                    take: rowsPerPage
+                });
+            } else if (cluePending == 'true') {
+                listEvaluation = await db.ced_evaluacion.findMany({
+                    where: {
+                        id_residente: residentidFilter ? parseInt(residentidFilter) : {},
+                        ced_residentes: {
+                            OR: [
+                                { nombre: { contains: nameFilter } },
+                                { paterno: { contains: nameFilter } },
+                                { materno: { contains: nameFilter } }
+                            ],
+                            matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {}
+                        },
+                        ced_periodo: {
+                            ced_ciclo: {
+                                ciclo: cycleFilter ? { contains: cycleFilter } : {}
+                            },
+                            mes: monthFilter ? { contains: monthFilter } : {},
+                        },
+                        deleted_at: null
                     },
-                    ced_per_docente: {
-                        select: {
-                            id: true, ced_docentes: {
-                                select: { matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true }
+                    select: {
+                        id: true,
+                        grado_residente: true,
+                        act_1: true,
+                        act_2: true,
+                        act_3: true,
+                        act_4: true,
+                        act_5: true,
+                        act_6: true,
+                        act_7: true,
+                        act_8: true,
+                        act_9: true,
+                        act_10: true,
+                        act_11: true,
+                        act_12: true,
+                        act_13: true,
+                        act_14: true,
+                        act_15: true,
+                        act_16: true,
+                        total: true,
+                        pendiente: true,
+                        en_rotacion: true,
+                        faltas: true,
+                        fec_ord: true,
+                        ex_ord: true,
+                        fec_extra: true,
+                        ex_extra: true,
+                        observaciones: true,
+                        enviado: true,
+                        visto: true,
+                        id_clue: true,
+                        ced_residentes: {
+                            select: {
+                                id: true, matricula: true, paterno: true, materno: true, nombre: true, ced_especialidades: {
+                                    select: { nombre: true }
+                                }
                             }
+                        },
+                        ced_periodo: {
+                            select: { id: true, mes: true, fec_ini: true, fec_fin: true }
                         }
-                    }
-                },
-                orderBy: {
-                    id: "desc"
-                },
-                skip: min,
-                take: rowsPerPage
-            });
+                    },
+                    orderBy: {
+                        id: "desc"
+                    },
+                    skip: min,
+                    take: rowsPerPage
+                })
+            }
 
             resolve(listEvaluation);
         } catch (error) {
@@ -265,6 +337,7 @@ export const updateEvaluationQuery = ({
     id_residente,
     id_periodo,
     id_modulo,
+    id_docentes,
     evaluation_id
 }: PropsUpdateEvaluationQueries) => {
     return new Promise(async (resolve, reject) => {
@@ -275,9 +348,20 @@ export const updateEvaluationQuery = ({
                 }
             });
 
-            let data;
+            let data: any;
 
-            record != null ? ( //check if ID exists
+            let idEva: any = await db.ced_evaluacion.findFirst({
+                where: {
+                    id_residente,
+                    id_periodo,
+                    id_modulo
+                },
+                select: {
+                    id: true
+                }
+            })
+
+            record != null ? ( //check if ID exists & teacher hasn't evaluated
                 await db.ced_evaluacion.update({
                     where: {
                         id: evaluation_id
@@ -316,6 +400,14 @@ export const updateEvaluationQuery = ({
                         id_periodo,
                         id_modulo
                     }
+                }),
+                id_docentes?.forEach(async (doc: number) => {
+                    await db.ced_per_docente.create({
+                        data: {
+                            id_evaluacion: idEva?.id,
+                            id_docente: doc
+                        }
+                    })
                 }),
                 data = await db.ced_evaluacion.findUnique({
                     where: {
