@@ -5,7 +5,7 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
     return new Promise(async (resolve, reject) => {
         try {
             const residents = JSON.parse(decodeURIComponent(data.data));
-            const array = await Promise.all (
+            const array = await Promise.all(
                 residents.map(async (residente: PropsGetResidentsEvaluationQueries) => {
                     let estado: string = '';
                     const reg = await db.ced_evaluacion.findFirst({
@@ -22,13 +22,13 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
                         }
                     });
 
-                    if (reg == null) {
-                        estado = 'evaluar'
+                    if ((reg == null) || (reg.en_rotacion == 1) || (reg.id_modulo == 0)) {
+                        estado = 'evaluar';
                     } else {
                         if (reg.pendiente == 1) {
-                            estado = 'pendiente'
+                            estado = 'pendiente';
                         } else {
-                            estado = 'completado'
+                            estado = 'completado';
                         }
                     }
 
@@ -40,11 +40,13 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
                         grado: residente.grado,
                         ciclo: residente.ciclo,
                         mes: residente.mes,
-                        status: estado
+                        status: estado,
+                        rotacion: reg?.en_rotacion == 1 ? true : false,
+                        clue: reg?.id_clue == undefined || reg?.id_clue == null ? null : reg.id_clue 
                     }
                 })
             )
-            
+
             resolve(array);
         } catch (error) {
             reject(error);
