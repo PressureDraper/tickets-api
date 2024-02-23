@@ -350,18 +350,7 @@ export const updateEvaluationQuery = ({
 
             let data: any;
 
-            let idEva: any = await db.ced_evaluacion.findFirst({
-                where: {
-                    id_residente,
-                    id_periodo,
-                    id_modulo
-                },
-                select: {
-                    id: true
-                }
-            })
-
-            record != null ? ( //check if ID exists & teacher hasn't evaluated
+            record != null ? ( //check if ID exists
                 await db.ced_evaluacion.update({
                     where: {
                         id: evaluation_id
@@ -404,7 +393,7 @@ export const updateEvaluationQuery = ({
                 id_docentes?.forEach(async (doc: number) => {
                     await db.ced_per_docente.create({
                         data: {
-                            id_evaluacion: idEva?.id,
+                            id_evaluacion: evaluation_id,
                             id_docente: doc
                         }
                     })
