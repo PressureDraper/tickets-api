@@ -120,7 +120,7 @@ model ced_per_ciclo {
 model ced_modulo {
   id         Int       @id @unique @default(autoincrement()) @db.UnsignedInt
   modulo     String    @db.VarChar(100)
-  grado      String?    @db.Char(2)
+  grado      String?   @db.Char(2)
   created_at DateTime? @default(now()) @db.Timestamp(0)
   updated_at DateTime? @default(now()) @db.Timestamp(0)
   deleted_at DateTime? @db.Timestamp(0)
@@ -174,14 +174,14 @@ model ced_evaluacion {
   id_clue         Int?      @db.UnsignedInt
   id_residente    Int       @db.UnsignedInt
   id_periodo      Int       @db.UnsignedInt
-  id_modulo       Int       @db.UnsignedInt
+  id_modulo       Int?      @db.UnsignedInt
   created_at      DateTime? @default(now()) @db.Timestamp(0)
   updated_at      DateTime? @default(now()) @db.Timestamp(0)
   deleted_at      DateTime? @db.Timestamp(0)
 
   ced_residentes ced_residentes @relation(fields: [id_residente], references: [id], onUpdate: Restrict)
   ced_periodo    ced_periodo    @relation(fields: [id_periodo], references: [id], onUpdate: Restrict)
-  ced_modulo     ced_modulo     @relation(fields: [id_modulo], references: [id], onUpdate: Restrict)
+  ced_modulo     ced_modulo?    @relation(fields: [id_modulo], references: [id], onUpdate: Restrict)
 
   ced_per_docente ced_per_docente[]
 }
