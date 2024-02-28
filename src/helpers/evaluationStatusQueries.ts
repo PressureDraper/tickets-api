@@ -22,12 +22,12 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
                         }
                     });
 
-                    if ((reg == null) || (reg.en_rotacion == 1) || (reg.id_modulo == 0)) {
+                    if ((reg == null) || (reg.en_rotacion == 1) || (reg.pendiente == 0 && reg.en_rotacion == 0 && reg.id_modulo == null)) {
                         estado = 'evaluar';
                     } else {
-                        if (reg.pendiente == 1) {
+                        if (reg.pendiente == 1 && reg.en_rotacion == 0) {
                             estado = 'pendiente';
-                        } else {
+                        } else if (reg.id_residente != null && reg.id_periodo != null && reg.id_modulo != null && reg.pendiente == 0) {
                             estado = 'completado';
                         }
                     }

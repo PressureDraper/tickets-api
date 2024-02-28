@@ -78,8 +78,8 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         },
                         ced_per_docente: {
                             select: {
-                                id: true, ced_docentes: {
-                                    select: { matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true }
+                                ced_docentes: {
+                                    select: { id: true, matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true }
                                 }
                             }
                         }
@@ -391,12 +391,21 @@ export const updateEvaluationQuery = ({
                     }
                 }),
                 id_docentes?.forEach(async (doc: number) => {
-                    await db.ced_per_docente.create({
-                        data: {
+                    const repeated = await db.ced_per_docente.findFirst({
+                        where: {
                             id_evaluacion: evaluation_id,
                             id_docente: doc
                         }
-                    })
+                    });
+                    
+                    if (!repeated) {
+                        await db.ced_per_docente.create({
+                            data: {
+                                id_evaluacion: evaluation_id,
+                                id_docente: doc
+                            }
+                        })
+                    }
                 }),
                 data = await db.ced_evaluacion.findUnique({
                     where: {
