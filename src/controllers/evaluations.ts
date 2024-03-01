@@ -1,6 +1,6 @@
 import { Response } from "express";
-import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from "../interfaces/evaluationQueries";
-import { createEvaluationQuery, deleteEvaluationQuery, getEvaluationQuery, getTotalEvaluationsQuery, updateEvaluationQuery } from "../helpers/evaluationQueries";
+import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetInfoEvaluationQuery, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from "../interfaces/evaluationQueries";
+import { createEvaluationQuery, deleteEvaluationQuery, getEvaluationQuery, getTotalEvaluationsQuery, getTotalInfoEvaluationQuery, updateEvaluationQuery } from "../helpers/evaluationQueries";
 
 export const getEvaluations = async (req: any, res: Response) => {
     try {
@@ -28,6 +28,24 @@ export const getTotalEvaluations = async (req: any, res: Response) => {
             ok: true,
             msg: 'ok',
             data: queryTotalEvaluations
+        })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
+
+export const getInfoEvaluation = async (req: any, res: Response) => {
+    try {
+        const params: PropsGetInfoEvaluationQuery = req.query;
+        let queryInfo = await getTotalInfoEvaluationQuery({...params});
+        res.status(200).json({
+            ok: true,
+            msg: 'ok',
+            data: queryInfo
         })
     } catch (error) {
         console.log(error);

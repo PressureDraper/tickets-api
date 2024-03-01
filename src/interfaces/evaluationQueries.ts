@@ -15,6 +15,12 @@ export interface PropsGetTotalEvaluationsQuery {
     enrollmentFilter: string
 }
 
+export interface PropsGetInfoEvaluationQuery {
+    cycleFilter: string,
+    specialtyFilter: string,
+    periodidFilter: string
+}
+
 export interface PropsCreateEvaluationQueries {
     grado_residente: string,
     act_1?: number,
