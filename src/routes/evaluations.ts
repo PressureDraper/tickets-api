@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { validateFields } from "../middlewares/validate-fields";
-import { createEvaluation, deleteEvaluation, getEvaluations, getTotalEvaluations, updateEvaluation } from "../controllers/evaluations";
+import { createEvaluation, deleteEvaluation, getEvaluations, getInfoEvaluation, getTotalEvaluations, updateEvaluation } from "../controllers/evaluations";
 import { cleanFields } from "../middlewares/clean-emptyFields";
 
 const router = Router();
 
 router.get('/', getEvaluations);
 router.get('/total/count', getTotalEvaluations)
+router.get('/total/infoEvaluation', getInfoEvaluation)
 
 router.post('/', [
     check('grado_residente', "El campo grado es obligatorio"),

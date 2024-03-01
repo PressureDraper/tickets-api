@@ -1,4 +1,4 @@
-import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
+import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetInfoEvaluationQuery, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
 export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter, enrollmentFilter = '', cycleFilter = '', cluePending }: PropsGetEvaluationQueries) => {
@@ -184,7 +184,89 @@ export const getTotalEvaluationsQuery = ({ residentidFilter, enrollmentFilter = 
 
                 resolve(countListEvaluations)
 
-            ) : resolve(0)
+            ) : resolve(0);
+        } catch (error) {
+            console.log(error);
+            reject(error);
+        }
+    })
+}
+
+export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter = '', periodidFilter }: PropsGetInfoEvaluationQuery) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let totalResidents = await db.ced_per_ciclo.findMany({
+                where: {
+                    ced_ciclo: {
+                        ciclo: cycleFilter ? { contains: cycleFilter } : {},
+                    },
+                    ced_residentes: {
+                        ced_especialidades: {
+                            nombre: specialtyFilter ? { contains: specialtyFilter } : {}
+                        },
+                        status: 1
+                    }
+                },
+                select: {
+                    id_residente: true,
+                    id_ciclo: true
+                }
+            })
+
+            const array = await Promise.all(
+                totalResidents.map(async (res: any) => {
+                    let infos = {notevaluated: 0, pending: 0, completed: 0}
+                    let evals = await db.ced_evaluacion.findFirst({
+                        where: {
+                            id_residente: res.id_residente,
+                            ced_periodo: {
+                                mes: periodidFilter,
+                                id_ciclo: res.id_ciclo
+                            }
+                        },
+                        select: {
+                            ced_residentes: {
+                                select: {
+                                    matricula: true,
+                                    nombre: true
+                                }
+                            },
+                            en_rotacion: true,
+                            pendiente: true,
+                            id_modulo: true,
+                            id_residente: true,
+                            id_periodo: true
+                        }
+                    })
+
+                    if ((evals == null) || (evals.en_rotacion == 1) || (evals.pendiente == 0 && evals.en_rotacion == 0 && evals.id_modulo == null)) {
+                        infos['notevaluated'] = 1
+                    } else {
+                        if (evals.pendiente == 1 && evals.en_rotacion == 0) {
+                            infos['pending'] = 1
+                        } else if (evals.id_residente != null && evals.id_periodo != null && evals.id_modulo != null && evals.pendiente == 0) {
+                            infos['completed'] = 1
+                        }
+                    }
+
+                    return infos
+                })
+            )
+
+            let infos = {notevaluated: 0, pending: 0, completed: 0}
+
+            array.forEach((val) => {
+                if (val.notevaluated == 1) {
+                    infos['notevaluated'] = infos['notevaluated'] + 1
+                } else if (val.pending == 1) {
+                    infos['pending'] = infos['pending'] + 1
+                } else if (val.completed == 1) {
+                    infos['completed'] = infos['completed'] + 1
+                }
+
+            })
+
+            resolve(infos);
         } catch (error) {
             console.log(error);
             reject(error);
@@ -397,7 +479,7 @@ export const updateEvaluationQuery = ({
                             id_docente: doc
                         }
                     });
-                    
+
                     if (!repeated) {
                         await db.ced_per_docente.create({
                             data: {
