@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Reporte Mensual</title>
+    <style type="text/css">
+        body {
+            /* background: url(http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/copia_boleta.jpg) center no-repeat;
+            background-size: 160%;
+            background-position: 50% 70%; */
+            padding: 0;
+            margin: 0;
+        }
+
+        .page {
+            page-break-before: always;
+            padding-top: 8%;
+            height: 243.5vh;
+            margin-left: 8px;
+        }
+
+        .pageContent {
+            background: url(http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/copia_boleta.jpg) center no-repeat;
+            background-size: 160%;
+            background-position: 50% 70%;
+            height: 243.5vh;
+        }
+
+
+        .header {
+            font-size: 9.5px;
+            font-family: Verdana;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        label {
+            font-size: 11px;
+            font-family: Verdana;
+            font-weight: bold;
+        }
+
+        .props {
+            font-size: 11px;
+            font-family: Verdana;
+            margin-bottom: 4px;
+        }
+
+        .title {
+            margin-top: 20px;
+        }
+
+        .tables {
+            width: 545px;
+            margin-left: 25px;
+        }
+
+        .table {
+            font-size: 10px;
+            border: 1px solid #ddd;
+            border-collapse: collapse;
+            text-align: left;
+            width: 100%;
+        }
+
+        .table td {
+            border: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        .n {
+            font-size: 9px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .b {
+            font-weight: bold;
+            font-size: 9px;
+            border: 1px solid black;
+        }
+
+        .t {
+            line-height: 5px;
+        }
+
+        .row {
+            font-size: 9px;
+            line-height: 3px;
+        }
+
+        .values {
+            font-size: 9px;
+            line-height: 3px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .footer {
+            height: 75px;
+            margin-left: 5px;
+            margin-right: 12px;
+            margin-bottom: 10px;
+        }
+
+        .tablefooter {
+            text-align: center;
+            justify-content: center;
+            vertical-align: middle;
+            width: 80%;
+            margin: 0 auto;
+            height: 0;
+            border: 1px solid black;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .line {
+            width: 50%;
+            height: 100%;
+            float: left;
+            text-align: center;
+        }
+
+        .names {
+            font-size: 10px;
+            font-family: Verdana;
+            font-weight: bold;
+        }
+
+        .names2 {
+            font-size: 9px;
+            font-family: Verdana;
+            font-weight: bold;
+        }
+
+        .observaciones {
+            margin-top: -5px;
+            width: 545px;
+            margin-left: 25px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <section class="page">
+        <div class="pageContent">
+            <div class="agua"></div>
+            <div class="images">
+                <img style="position: absolute; left: 35px;" width="auto" height="55px"
+                    src="http://cae.ssaver.gob.mx/cae/recursos/imagenes/logos2019/nuevos/ESCUDOVERHORIZONTALCMYK.jpg" alt="sessver">
+                <img style="position: absolute; right: 27px;" width="auto" height="45px"
+                    src="http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/posgrado.png" alt="posgrado">
+            </div>
+            <div class="text-center" style="margin-top: 5px;">
+                <h1 class="header">SERVICIOS DE SALUD DE VERACRUZ 83</h1>
+                <h1 class="header">SUBDIRECCIÓN DE ENSEÑANZA, INVESTIGACIÓN</h1>
+                <h1 class="header">Y CAPACITACIÓN</h1>
+                <h1 style="margin-bottom: 2%;" class="header">DEPARTAMENTO DE POSGRADO E INVESTIGACIÓN</h1>
+                <h1 class="header">CÉDULA DE EVALUACIÓN MENSUAL PARA MÉDICOS RESIDENTES</h1>
+                <h1 class="header">CICLO {ciclo}</h1>
+            </div>
+            <div class="properties" style="padding-left: 5%; margin-top: 2%;">
+                <h1 class="props">Hospital Sede/subsede: <label>Centro De Alta Especialidad Dr. Rafael Lucio</label>
+                </h1>
+                <h1 class="props">Nombre del Residente: <label>{residente}</label></h1>
+                <h1 style="font-size: 11px; font-family: Verdana; position: absolute; right: 260px;">Grado:
+                    <label>{grado}</label>
+                </h1>
+                <h1 class="props">Especialidad: <label>{especialidad}</label></h1>
+                <h1 class="props">Periodo de Evaluación: <label>{periodo}</label></h1>
+                <h1 class="props">Módulo o Unidad Didáctica: <label>{modulo}</label></h1>
+            </div>
+            <div class="tables">
+                <table class="table">
+                    <tr style="line-height: 8px; vertical-align: middle;">
+                        <td class="n" style="width: 312px;">Aspecto a evaluar</td>
+                        <td class="n">Valor máximo de<br> referencia</td>
+                        <td class="n">Puntaje</td>
+                        <td class="n">Calificación</td>
+                    </tr>
+
+                    <tr class="t">
+                        <td class="b">Psicomotriz</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="t">
+                        <td class="b">A. Área Clínica</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="t">
+                        <td class="row">1.- INTEGRACIÓN DE NOTA CLÍNICA Y/O HISTORIA CLÍNICA</td>
+                        <td class="values">3.00</td>
+                        <td class="values">{act1}</td>
+                        <td class="values">{act1_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">2.- ELABORACIÓN DE ANÁLISIS</td>
+                        <td class="values">2.50</td>
+                        <td class="values">{act2}</td>
+                        <td class="values">{act2_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row" style="line-height: 11px; padding-top: 2px; padding-bottom: 2px;">3.- USO E
+                            INTERPRETACIÓN DE ESTUDIOS DE LABORATORIO Y GABINETE</td>
+                        <td class="values">1.50</td>
+                        <td class="values">{act3}</td>
+                        <td class="values">{act3_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">4.- INTEGRACIÓN DEL DIAGNÓSTICO Y TRATAMIENTO ADECUADO</td>
+                        <td class="values">2.00</td>
+                        <td class="values">{act4}</td>
+                        <td class="values">{act4_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">5.- ESTABLECER UN PRONÓSTICO</td>
+                        <td class="values">1.00</td>
+                        <td class="values">{act5}</td>
+                        <td class="values">{act5_cal}</td>
+                    </tr>
+                    <tr class="t">
+                        <td class="b">B. Procedimientos</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="row">6.- SELECCIÓN E INTERPRETACIÓN DEL PROCEDIMIENTO</td>
+                        <td class="values">1.00</td>
+                        <td class="values">{act6}</td>
+                        <td class="values">{act6_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">7.- CONOCIMIENTO DE LA TÉCNICA</td>
+                        <td class="values">3.00</td>
+                        <td class="values">{act7}</td>
+                        <td class="values">{act7_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">8.- DESARROLLO DE LA TÉCNICA </td>
+                        <td class="values">3.50</td>
+                        <td class="values">{act8}</td>
+                        <td class="values">{act8_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">9.- MANEJO Y DIAGNÓSTICO DE LAS COMPLICACIONES</td>
+                        <td class="values">1.50</td>
+                        <td class="values">{act9}</td>
+                        <td class="values">{act9_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">10.- CUIDADO POSTOPERATORIO Y/O POSTANESTÉSICO</td>
+                        <td class="values">1.00</td>
+                        <td class="values">{act10}</td>
+                        <td class="values">{act10_cal}</td>
+                    </tr>
+                    <tr class="t">
+                        <td class="b">Total</td>
+                        <td class="n">20.00</td>
+                        <td class="n">{totala}</td>
+                        <td class="n">{totala_cal}</td>
+                    </tr>
+                    <tr class="t">
+                        <td class="b">C. Afectiva</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="row">11.- RESPONSABILIDAD</td>
+                        <td class="values">4.00</td>
+                        <td class="values">{act11}</td>
+                        <td class="values">{act11_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">12.- INICIATIVA</td>
+                        <td class="values">4.00</td>
+                        <td class="values">{act12}</td>
+                        <td class="values">{act12_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">13.- ORGANIZACIÓN EN EL TRABAJO</td>
+                        <td class="values">4.00</td>
+                        <td class="values">{act13}</td>
+                        <td class="values">{act13_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">14.- RELACIONES HUMANAS</td>
+                        <td class="values">4.00</td>
+                        <td class="values">{act14}</td>
+                        <td class="values">{act14_cal}</td>
+                    </tr>
+                    <tr>
+                        <td class="row">15.- DISCIPLINA</td>
+                        <td class="values">4.00</td>
+                        <td class="values">{act15}</td>
+                        <td class="values">{act15_cal}</td>
+                    </tr>
+                    <tr class="t">
+                        <td class="b">Total</td>
+                        <td class="n">20.00</td>
+                        <td class="n">{totalb}</td>
+                        <td class="n">{totalb_cal}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="footer" style="padding-top: 15px;">
+                <div class="line">
+                    <h5 class="names">{nombre}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Residente</h5>
+                </div>
+                <div class="line">
+                    <h5 class="names">{titular}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Profesor Titular</h5>
+                </div>
+            </div>
+            <div class="footer" style="padding-top: 10px;">
+                <div class="line">
+                    <h5 class="names">{adjuntoinvitado}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Profesor Adjunto / Invitado</h5>
+                </div>
+                <div class="line">
+                    <h5 class="names">DR. JUAN GERARDO NEME KURI</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Subdirector de Enseñanza</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="page">
+        <div class="pageContent">
+            <div class="images">
+                <img style="position: absolute; left: 35px;" width="auto" height="55px"
+                    src="http://cae.ssaver.gob.mx/cae/recursos/imagenes/logos2019/nuevos/ESCUDOVERHORIZONTALCMYK.jpg" alt="sessver">
+                <img style="position: absolute; right: 27px;" width="auto" height="45px"
+                    src="http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/posgrado.png" alt="posgrado">
+            </div>
+            <div class="text-center" style="margin-top: 10px;">
+                <h1 class="header">SERVICIOS DE SALUD DE VERACRUZ 83</h1>
+                <h1 class="header">SUBDIRECCIÓN DE ENSEÑANZA, INVESTIGACIÓN</h1>
+                <h1 class="header">Y CAPACITACIÓN</h1>
+                <h1 style="margin-bottom: 2%;" class="header">DEPARTAMENTO DE POSGRADO E INVESTIGACIÓN</h1>
+                <h1 class="header">CÉDULA DE EVALUACIÓN MENSUAL PARA MÉDICOS RESIDENTES</h1>
+                <h1 class="header">CICLO {ciclo}</h1>
+            </div>
+            <div class="properties" style="padding-left: 5%; margin-top: 2%;">
+                <h1 class="props">Hospital Sede/subsede: <label>Centro De Alta Especialidad Dr. Rafael Lucio</label>
+                </h1>
+                <h1 class="props">Nombre del Residente: <label>{residente}</label></h1>
+                <h1 style="font-size: 11px; font-family: Verdana; position: absolute; right: 260px;">Grado:
+                    <label>{grado}</label>
+                </h1>
+                <h1 class="props">Especialidad: <label>{especialidad}</label></h1>
+                <h1 class="props">Periodo de Evaluación: <label>{periodo}</label></h1>
+                <h1 class="props">Módulo o Unidad Didáctica: <label>{modulo}</label></h1>
+            </div>
+            <div class="tables">
+                <table class="table">
+                    <tr style="line-height: 13px; vertical-align: middle; height: 50px;">
+                        <td class="n">INASISTENCIAS<br>JUSTIFICADAS</td>
+                        <td class="n">EXAMEN<br>ORDINARIO</td>
+                        <td class="n">FECHA</td>
+                        <td class="n">EXAMEN<br>EXTRAORDINARIO</td>
+                        <td class="n">FECHA</td>
+                    </tr>
+                    <tr style="line-height: 13px; vertical-align: middle; height: 50px; text-align: center;">
+                        <td class="b">{inasistencias}</td>
+                        <td class="b">{ordinario}</td>
+                        <td class="b">{fec_ord}</td>
+                        <td class="b">{exordinario}</td>
+                        <td class="b">{fec_extra}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="tables">
+                <table class="table">
+                    <tr style="line-height: 13px; vertical-align: middle; height: 50px;">
+                        <td class="n"></td>
+                        <td class="n">PSICOMOTRIZ<br>(20%)</td>
+                        <td class="n">AFECTIVA<br>(20%)</td>
+                        <td class="n">COGNITIVA<br>(60%)</td>
+                        <td class="n">TOTAL</td>
+                    </tr>
+                    <tr style="line-height: 13px; vertical-align: middle; height: 50px; text-align: center;">
+                        <td class="b">PUNTAJE</td>
+                        <td class="b">{totala}</td>
+                        <td class="b">{totalb}</td>
+                        <td class="b">{act16}</td>
+                        <td class="b">{total_porcentaje}</td>
+                    </tr>
+                    <tr style="line-height: 13px; vertical-align: middle; height: 50px; text-align: center;">
+                        <td class="b">CALIFICACIÓN</td>
+                        <td class="b">{totala_cal}</td>
+                        <td class="b">{totalb_cal}</td>
+                        <td class="b">{cal_total}</td>
+                        <td class="b"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="observaciones">
+                <label style="font-size: 9px;">OBSERVACIONES:</label>
+                <div class="tables" style="margin-left: 0px; margin-top: 2px;">
+                    <div class="table" style="height: 60px; padding: 5px;">
+                        {observaciones}
+                    </div>
+                </div>
+            </div>
+            <div class="footer" style="padding-top: 15px;">
+                <div class="line">
+                    <h5 class="names">{nombre}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Residente</h5>
+                </div>
+                <div class="line">
+                    <h5 class="names">{titular}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Profesor Titular</h5>
+                </div>
+            </div>
+            <div class="footer" style="padding-top: 10px;">
+                <div class="line">
+                    <h5 class="names">{adjuntoinvitado}</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Profesor Adjunto / Invitado</h5>
+                </div>
+                <div class="line">
+                    <h5 class="names">DR. JUAN GERARDO NEME KURI</h5>
+                    <table class="tablefooter">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </table>
+                    <h5 class="names2">Subdirector de Enseñanza</h5>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

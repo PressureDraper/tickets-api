@@ -30,6 +30,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         ced_modulo: {
                             modulo: moduleFilter ? { contains: moduleFilter } : {},
                         },
+                        pendiente: 0,
                         deleted_at: null
                     },
                     select: {
@@ -71,7 +72,12 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                             }
                         },
                         ced_periodo: {
-                            select: { id: true, mes: true, fec_ini: true, fec_fin: true }
+                            select: {
+                                id: true, mes: true, fec_ini: true, fec_fin: true, 
+                                ced_ciclo: {
+                                    select: { ciclo: true }
+                                }
+                            }
                         },
                         ced_modulo: {
                             select: { id: true, modulo: true, grado: true }
@@ -149,7 +155,12 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                             }
                         },
                         ced_periodo: {
-                            select: { id: true, mes: true, fec_ini: true, fec_fin: true }
+                            select: {
+                                id: true, mes: true, fec_ini: true, fec_fin: true,
+                                ced_ciclo: {
+                                    select: { ciclo: true }
+                                }
+                            }
                         }
                     },
                     orderBy: {
@@ -176,6 +187,7 @@ export const getTotalEvaluationsQuery = ({ residentidFilter, enrollmentFilter = 
                     ced_residentes: {
                         matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
                     },
+                    pendiente: 0,
                     deleted_at: null
                 }
             })
@@ -215,7 +227,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
 
             const array = await Promise.all(
                 totalResidents.map(async (res: any) => {
-                    let infos = {notevaluated: 0, pending: 0, completed: 0}
+                    let infos = { notevaluated: 0, pending: 0, completed: 0 }
                     let evals = await db.ced_evaluacion.findFirst({
                         where: {
                             id_residente: res.id_residente,
@@ -253,7 +265,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                 })
             )
 
-            let infos = {notevaluated: 0, pending: 0, completed: 0}
+            let infos = { notevaluated: 0, pending: 0, completed: 0 }
 
             array.forEach((val) => {
                 if (val.notevaluated == 1) {
