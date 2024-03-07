@@ -13,6 +13,7 @@ import routerTeachers from '../routes/teachers';
 import routerResPerCycle from '../routes/resPerCycle';
 import routerEvaluations from '../routes/evaluations'
 import routerStatus from '../routes/statusEvaluations';
+import routerReports from '../routes/reports';
 
 class Server {
     private app: Express;
@@ -40,7 +41,8 @@ class Server {
         this.app.use( '/api/teachers', routerTeachers);
         this.app.use( '/api/percycle', routerResPerCycle);
         this.app.use( '/api/evaluation', routerEvaluations);
-        this.app.use('/api/status', routerStatus)
+        this.app.use('/api/status', routerStatus);
+        this.app.use('/api/reportes', routerReports);
     }
 
     execute() {
