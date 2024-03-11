@@ -11,7 +11,7 @@ import { htmlParams } from "../helpers/reportsHelpers";
 export const getPdfReport = async (req: any, res: Response) => {
     try {
         //load html template
-        const dir = path.join(__dirname, '../../src/assets/templateMonthlyReport.html');
+        const dir = path.join(__dirname, '../assets/templateMonthlyReport.html');
 
         //get params from front-end
         let params: ReporteMensualCalificaciones = req.query; 

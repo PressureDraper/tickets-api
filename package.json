@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon ./build/index.js"
+    "clean": "rimraf build/assets",
+    "copy-files": "copyfiles -u 1 src/**/*.html build/",
+    "dev": "npm run clean && npm run copy-files && nodemon ./build/index.js"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +16,9 @@
     "@types/html-pdf": "^3.0.3",
     "@types/node": "^20.6.2",
     "@types/string-template": "^1.0.6",
+    "copyfiles": "^2.4.1",
     "prisma": "^5.3.1",
+    "rimraf": "^5.0.5",
     "typescript": "^5.2.2"
   },
   "dependencies": {
