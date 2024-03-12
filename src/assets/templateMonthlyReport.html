@@ -4,14 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- plantilla hecha sin bootstrap por modulos antiguos que no trabajan con chromium, pero ya es posible utilizarlo sin problema -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Reporte Mensual</title>
     <style type="text/css">
         body {
-            /* background: url(http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/copia_boleta.jpg) center no-repeat;
-            background-size: 160%;
-            background-position: 50% 70%; */
             padding: 0;
             margin: 0;
         }
@@ -19,33 +17,32 @@
         .page {
             page-break-before: always;
             padding-top: 8%;
-            height: 243.5vh;
             margin-left: 8px;
         }
 
         .pageContent {
             background: url(http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/copia_boleta.jpg) center no-repeat;
             background-size: 160%;
-            background-position: 50% 70%;
-            height: 243.5vh;
+            background-position: 50% 40%;
+            height: 91vh;
         }
 
 
         .header {
-            font-size: 9.5px;
+            font-size: 13px;
             font-family: Verdana;
             font-weight: bold;
             margin: 0;
         }
 
         label {
-            font-size: 11px;
+            font-size: 16px;
             font-family: Verdana;
             font-weight: bold;
         }
 
         .props {
-            font-size: 11px;
+            font-size: 16px;
             font-family: Verdana;
             margin-bottom: 4px;
         }
@@ -55,11 +52,11 @@
         }
 
         .tables {
-            width: 545px;
-            margin-left: 25px;
+            width: 720px;
+            margin-left: 38px;
         }
 
-        .table {
+        .tabble {
             font-size: 10px;
             border: 1px solid #ddd;
             border-collapse: collapse;
@@ -67,20 +64,22 @@
             width: 100%;
         }
 
-        .table td {
+        .tabble td {
             border: 1px solid #ddd;
             padding: 5px;
         }
 
         .n {
-            font-size: 9px;
+            font-size: 13px;
             text-align: center;
+            font-family: Verdana;
             font-weight: bold;
         }
 
         .b {
             font-weight: bold;
-            font-size: 9px;
+            font-size: 13px;
+            font-family: Verdana;
             border: 1px solid black;
         }
 
@@ -88,20 +87,23 @@
             line-height: 5px;
         }
 
-        .row {
-            font-size: 9px;
-            line-height: 3px;
+        .criteria {
+            font-size: 13px;
+            font-family: Verdana;
+            line-height: 10px;
         }
 
         .values {
-            font-size: 9px;
+            font-size: 13px;
             line-height: 3px;
+            font-family: Verdana;
             text-align: center;
             vertical-align: middle;
         }
 
         .footer {
-            height: 75px;
+            height: 100px;
+            margin-top: 20px;
             margin-left: 5px;
             margin-right: 12px;
             margin-bottom: 10px;
@@ -127,13 +129,13 @@
         }
 
         .names {
-            font-size: 10px;
+            font-size: 13px;
             font-family: Verdana;
             font-weight: bold;
         }
 
         .names2 {
-            font-size: 9px;
+            font-size: 12px;
             font-family: Verdana;
             font-weight: bold;
         }
@@ -150,11 +152,10 @@
 <body>
     <section class="page">
         <div class="pageContent">
-            <div class="agua"></div>
             <div class="images">
-                <img style="position: absolute; left: 35px;" width="auto" height="55px"
+                <img style="position: absolute; left: 50px;" width="auto" height="75px"
                     src="http://cae.ssaver.gob.mx/cae/recursos/imagenes/logos2019/nuevos/ESCUDOVERHORIZONTALCMYK.jpg" alt="sessver">
-                <img style="position: absolute; right: 27px;" width="auto" height="45px"
+                <img style="position: absolute; right: 45px;" width="auto" height="60px"
                     src="http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/posgrado.png" alt="posgrado">
             </div>
             <div class="text-center" style="margin-top: 5px;">
@@ -169,7 +170,7 @@
                 <h1 class="props">Hospital Sede/subsede: <label>Centro De Alta Especialidad Dr. Rafael Lucio</label>
                 </h1>
                 <h1 class="props">Nombre del Residente: <label>{residente}</label></h1>
-                <h1 style="font-size: 11px; font-family: Verdana; position: absolute; right: 260px;">Grado:
+                <h1 style="font-size: 16px; font-family: Verdana; position: absolute; right: 360px;">Grado:
                     <label>{grado}</label>
                 </h1>
                 <h1 class="props">Especialidad: <label>{especialidad}</label></h1>
@@ -177,10 +178,10 @@
                 <h1 class="props">Módulo o Unidad Didáctica: <label>{modulo}</label></h1>
             </div>
             <div class="tables">
-                <table class="table">
+                <table class="tabble">
                     <tr style="line-height: 8px; vertical-align: middle;">
-                        <td class="n" style="width: 312px;">Aspecto a evaluar</td>
-                        <td class="n">Valor máximo de<br> referencia</td>
+                        <td class="n" style="width: 400px;">Aspecto a evaluar</td>
+                        <td class="n" style="line-height: 13px;">Valor máximo de<br> referencia</td>
                         <td class="n">Puntaje</td>
                         <td class="n">Calificación</td>
                     </tr>
@@ -198,32 +199,32 @@
                         <td></td>
                     </tr>
                     <tr class="t">
-                        <td class="row">1.- INTEGRACIÓN DE NOTA CLÍNICA Y/O HISTORIA CLÍNICA</td>
+                        <td class="criteria">1.- INTEGRACIÓN DE NOTA CLÍNICA Y/O HISTORIA CLÍNICA</td>
                         <td class="values">3.00</td>
                         <td class="values">{act1}</td>
                         <td class="values">{act1_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">2.- ELABORACIÓN DE ANÁLISIS</td>
+                        <td class="criteria">2.- ELABORACIÓN DE ANÁLISIS</td>
                         <td class="values">2.50</td>
                         <td class="values">{act2}</td>
                         <td class="values">{act2_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row" style="line-height: 11px; padding-top: 2px; padding-bottom: 2px;">3.- USO E
+                        <td class="criteria" style="line-height: 13px; padding-top: 2px; padding-bottom: 2px;">3.- USO E
                             INTERPRETACIÓN DE ESTUDIOS DE LABORATORIO Y GABINETE</td>
                         <td class="values">1.50</td>
                         <td class="values">{act3}</td>
                         <td class="values">{act3_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">4.- INTEGRACIÓN DEL DIAGNÓSTICO Y TRATAMIENTO ADECUADO</td>
+                        <td class="criteria" style="line-height: 13px;">4.- INTEGRACIÓN DEL DIAGNÓSTICO Y TRATAMIENTO ADECUADO</td>
                         <td class="values">2.00</td>
                         <td class="values">{act4}</td>
                         <td class="values">{act4_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">5.- ESTABLECER UN PRONÓSTICO</td>
+                        <td class="criteria">5.- ESTABLECER UN PRONÓSTICO</td>
                         <td class="values">1.00</td>
                         <td class="values">{act5}</td>
                         <td class="values">{act5_cal}</td>
@@ -235,31 +236,31 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td class="row">6.- SELECCIÓN E INTERPRETACIÓN DEL PROCEDIMIENTO</td>
+                        <td class="criteria">6.- SELECCIÓN E INTERPRETACIÓN DEL PROCEDIMIENTO</td>
                         <td class="values">1.00</td>
                         <td class="values">{act6}</td>
                         <td class="values">{act6_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">7.- CONOCIMIENTO DE LA TÉCNICA</td>
+                        <td class="criteria">7.- CONOCIMIENTO DE LA TÉCNICA</td>
                         <td class="values">3.00</td>
                         <td class="values">{act7}</td>
                         <td class="values">{act7_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">8.- DESARROLLO DE LA TÉCNICA </td>
+                        <td class="criteria">8.- DESARROLLO DE LA TÉCNICA </td>
                         <td class="values">3.50</td>
                         <td class="values">{act8}</td>
                         <td class="values">{act8_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">9.- MANEJO Y DIAGNÓSTICO DE LAS COMPLICACIONES</td>
+                        <td class="criteria">9.- MANEJO Y DIAGNÓSTICO DE LAS COMPLICACIONES</td>
                         <td class="values">1.50</td>
                         <td class="values">{act9}</td>
                         <td class="values">{act9_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">10.- CUIDADO POSTOPERATORIO Y/O POSTANESTÉSICO</td>
+                        <td class="criteria">10.- CUIDADO POSTOPERATORIO Y/O POSTANESTÉSICO</td>
                         <td class="values">1.00</td>
                         <td class="values">{act10}</td>
                         <td class="values">{act10_cal}</td>
@@ -277,31 +278,31 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <td class="row">11.- RESPONSABILIDAD</td>
+                        <td class="criteria">11.- RESPONSABILIDAD</td>
                         <td class="values">4.00</td>
                         <td class="values">{act11}</td>
                         <td class="values">{act11_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">12.- INICIATIVA</td>
+                        <td class="criteria">12.- INICIATIVA</td>
                         <td class="values">4.00</td>
                         <td class="values">{act12}</td>
                         <td class="values">{act12_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">13.- ORGANIZACIÓN EN EL TRABAJO</td>
+                        <td class="criteria">13.- ORGANIZACIÓN EN EL TRABAJO</td>
                         <td class="values">4.00</td>
                         <td class="values">{act13}</td>
                         <td class="values">{act13_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">14.- RELACIONES HUMANAS</td>
+                        <td class="criteria">14.- RELACIONES HUMANAS</td>
                         <td class="values">4.00</td>
                         <td class="values">{act14}</td>
                         <td class="values">{act14_cal}</td>
                     </tr>
                     <tr>
-                        <td class="row">15.- DISCIPLINA</td>
+                        <td class="criteria">15.- DISCIPLINA</td>
                         <td class="values">4.00</td>
                         <td class="values">{act15}</td>
                         <td class="values">{act15_cal}</td>
@@ -359,9 +360,9 @@
     <section class="page">
         <div class="pageContent">
             <div class="images">
-                <img style="position: absolute; left: 35px;" width="auto" height="55px"
+                <img style="position: absolute; left: 50px;" width="auto" height="75px"
                     src="http://cae.ssaver.gob.mx/cae/recursos/imagenes/logos2019/nuevos/ESCUDOVERHORIZONTALCMYK.jpg" alt="sessver">
-                <img style="position: absolute; right: 27px;" width="auto" height="45px"
+                <img style="position: absolute; right: 45px;" width="auto" height="60px"
                     src="http://cae.ssaver.gob.mx/cae/recursos/cedula/imagenes/posgrado.png" alt="posgrado">
             </div>
             <div class="text-center" style="margin-top: 10px;">
@@ -376,7 +377,7 @@
                 <h1 class="props">Hospital Sede/subsede: <label>Centro De Alta Especialidad Dr. Rafael Lucio</label>
                 </h1>
                 <h1 class="props">Nombre del Residente: <label>{residente}</label></h1>
-                <h1 style="font-size: 11px; font-family: Verdana; position: absolute; right: 260px;">Grado:
+                <h1 style="font-size: 16px; font-family: Verdana; position: absolute; right: 360px;">Grado:
                     <label>{grado}</label>
                 </h1>
                 <h1 class="props">Especialidad: <label>{especialidad}</label></h1>
@@ -384,7 +385,7 @@
                 <h1 class="props">Módulo o Unidad Didáctica: <label>{modulo}</label></h1>
             </div>
             <div class="tables">
-                <table class="table">
+                <table class="tabble">
                     <tr style="line-height: 13px; vertical-align: middle; height: 50px;">
                         <td class="n">INASISTENCIAS<br>JUSTIFICADAS</td>
                         <td class="n">EXAMEN<br>ORDINARIO</td>
@@ -401,8 +402,8 @@
                     </tr>
                 </table>
             </div>
-            <div class="tables">
-                <table class="table">
+            <div class="tables" style="margin-top: 30px;">
+                <table class="tabble">
                     <tr style="line-height: 13px; vertical-align: middle; height: 50px;">
                         <td class="n"></td>
                         <td class="n">PSICOMOTRIZ<br>(20%)</td>
@@ -426,15 +427,15 @@
                     </tr>
                 </table>
             </div>
-            <div class="observaciones">
-                <label style="font-size: 9px;">OBSERVACIONES:</label>
-                <div class="tables" style="margin-left: 0px; margin-top: 2px;">
-                    <div class="table" style="height: 60px; padding: 5px;">
+            <div class="observaciones" style="margin-top: 20px;">
+                <label style="font-size: 13px; margin-top: 20px; margin-left: 10px;">OBSERVACIONES:</label>
+                <div class="tables" style="margin-left: 10px; margin-top: 2px;">
+                    <div class="tabble" style="height: 80px; padding: 5px;">
                         {observaciones}
                     </div>
                 </div>
             </div>
-            <div class="footer" style="padding-top: 15px;">
+            <div class="footer" style="margin-top: 60px;">
                 <div class="line">
                     <h5 class="names">{nombre}</h5>
                     <table class="tablefooter">
@@ -454,7 +455,7 @@
                     <h5 class="names2">Profesor Titular</h5>
                 </div>
             </div>
-            <div class="footer" style="padding-top: 10px;">
+            <div class="footer" style="margin-top: 30px;">
                 <div class="line">
                     <h5 class="names">{adjuntoinvitado}</h5>
                     <table class="tablefooter">
@@ -477,5 +478,4 @@
         </div>
     </section>
 </body>
-
 </html>
