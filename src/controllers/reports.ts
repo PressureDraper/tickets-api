@@ -23,7 +23,9 @@ export const getPdfReport = async (req: any, res: Response) => {
         //get params to substitute inside html template
         let stringParams = htmlParams(params, query);
 
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({
+            executablePath: "/usr/bin/google-chrome",
+        });
         const page = await browser.newPage();
 
         //get html template loading params
