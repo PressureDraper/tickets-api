@@ -21,6 +21,12 @@ export interface PropsGetInfoEvaluationQuery {
     periodidFilter: string
 }
 
+export interface PropsMailerQuery {
+    ciclo: string,
+    mes: string,
+    especialidad: string
+}
+
 export interface PropsCreateEvaluationQueries {
     grado_residente: string,
     act_1?: number,

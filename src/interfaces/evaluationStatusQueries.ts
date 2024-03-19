@@ -11,5 +11,3 @@ export interface PropsGetResidentsEvaluationQueries {
 export interface ArrayResidentsEvaluation {
     data: string;
 }
-
-/* Promise<PropsGetResidentsEvaluationQueries[]> */
