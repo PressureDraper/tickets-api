@@ -29,7 +29,7 @@ export const getPdfReport = async (req: any, res: Response) => {
         const page = await browser.newPage();
 
         //get html template loading params
-        let template = format(fs.readFileSync(dir, 'utf8'), stringParams);
+        const template = format(fs.readFileSync(dir, 'utf8'), stringParams);
 
 
         await page.setContent(template);

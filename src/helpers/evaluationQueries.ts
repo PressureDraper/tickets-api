@@ -250,7 +250,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                             id_periodo: true
                         }
                     })
-
+                    
                     if ((evals == null) || (evals.en_rotacion == 1) || (evals.pendiente == 0 && evals.en_rotacion == 0 && evals.id_modulo == null)) {
                         infos['notevaluated'] = 1
                     } else {
@@ -261,7 +261,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                         }
                     }
 
-                    return infos
+                    return infos;
                 })
             )
 
