@@ -1,7 +1,7 @@
 import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetInfoEvaluationQuery, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
-export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter, enrollmentFilter = '', cycleFilter = '', cluePending }: PropsGetEvaluationQueries) => {
+export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter = '', enrollmentFilter = '', cycleFilter = '', cluePending }: PropsGetEvaluationQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
@@ -26,9 +26,6 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                                 ciclo: cycleFilter ? { contains: cycleFilter } : {}
                             },
                             mes: monthFilter ? { contains: monthFilter } : {},
-                        },
-                        ced_modulo: {
-                            modulo: moduleFilter ? { contains: moduleFilter } : {},
                         },
                         pendiente: 0,
                         deleted_at: null
@@ -85,7 +82,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         ced_per_docente: {
                             select: {
                                 ced_docentes: {
-                                    select: { id: true, matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true }
+                                    select: { id: true, matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true, status: true }
                                 }
                             }
                         }
@@ -159,6 +156,16 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                                 id: true, mes: true, fec_ini: true, fec_fin: true,
                                 ced_ciclo: {
                                     select: { ciclo: true }
+                                }
+                            }
+                        },
+                        ced_modulo: {
+                            select: { id: true, modulo: true, grado: true }
+                        },
+                        ced_per_docente: {
+                            select: {
+                                ced_docentes: {
+                                    select: { id: true, matricula: true, paterno: true, materno: true, nombre: true, tipo_profesor: true, status: true }
                                 }
                             }
                         }

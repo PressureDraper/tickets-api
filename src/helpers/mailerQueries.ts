@@ -22,6 +22,7 @@ export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMa
                     enviado: 0
                 },
                 select: {
+                    id: true,
                     grado_residente: true,
                     pendiente: true,
                     id_residente: true,
@@ -44,6 +45,7 @@ export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMa
                 }
             });
 
+            //filter only completed evaluations
             let filtered = students.filter((res) => {
                 if (res.id_residente != null && res.id_periodo != null && res.id_modulo != null && res.pendiente == 0 && res.ced_residentes.correo != null) {
                     return res;
@@ -72,8 +74,20 @@ export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMa
             let evaluaciones = entries.map((entry: any) => {
                 return entry[1]
             })
-
+            
             const htmlGen = generateHtmlMailInfo(evaluaciones);
+
+            //update evaluations to 'sent = 1' status
+            filtered.forEach(async (eva: any) => {
+                await db.ced_evaluacion.update({
+                    where: {
+                        id: eva.id
+                    },
+                    data: {
+                        enviado: 1
+                    }
+                })
+            });
 
             resolve([emails, htmlGen]);
         } catch (error) {
