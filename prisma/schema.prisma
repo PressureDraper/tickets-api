@@ -1,4 +1,4 @@
-//LA TABLA FALTANTE ES cat_clues pero esa únicamente se obtiene el respaldo de sica y se anexa
+//LA TABLA FALTANTE ES cat_clues pero se consulta via API
 
 generator client {
   provider = "prisma-client-js"
