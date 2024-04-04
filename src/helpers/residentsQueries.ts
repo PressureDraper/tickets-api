@@ -17,7 +17,7 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
                         { materno: { contains: nameFilter } }
                     ],
                     rfc: rfcFilter ? { contains: rfcFilter } : {},
-                    status: 1, //activos
+                    /* status: 1, */ //activos
                     ced_especialidades: {
                         codigo: specialtyFilter ? specialtyFilter : {}
                     }
@@ -52,12 +52,13 @@ export const getResidentsQuery = ({ limit = '10', page = '0', enrollmentFilter, 
 export const createResidentsQuery = ({ matricula, paterno, materno, nombre, telefono, curp, rfc, correo, status, codigo }: PropsCreateResidentsQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
-            const repeated: any = await db.ced_residentes.findFirst({ //check if enrollment already exists
+            const repeated: any = await db.ced_residentes.findFirst({ //check if resident already exists
                 where: {
                     OR: [
                         { matricula },
                         { curp },
-                        { rfc }
+                        { rfc },
+                        { correo }
                     ]
                 }
             });

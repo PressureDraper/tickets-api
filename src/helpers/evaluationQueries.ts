@@ -1,7 +1,7 @@
 import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetInfoEvaluationQuery, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
-export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter, moduleFilter = '', enrollmentFilter = '', cycleFilter = '', cluePending }: PropsGetEvaluationQueries) => {
+export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter, nameFilter = '', monthFilter = '', moduleFilter = '', enrollmentFilter = '', cycleFilter = '', cluePending, specialtyFilter = '' }: PropsGetEvaluationQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             const rowsPerPage = parseInt(limit);
@@ -19,7 +19,11 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                                 { paterno: { contains: nameFilter } },
                                 { materno: { contains: nameFilter } }
                             ],
-                            matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {}
+                            matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
+                            ced_especialidades: {
+                                nombre: specialtyFilter ? { contains: specialtyFilter} : {}
+                            },
+                            /* status: 1 */
                         },
                         ced_periodo: {
                             ced_ciclo: {
@@ -70,7 +74,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         },
                         ced_periodo: {
                             select: {
-                                id: true, mes: true, fec_ini: true, fec_fin: true, 
+                                id: true, mes: true, fec_ini: true, fec_fin: true,
                                 ced_ciclo: {
                                     select: { ciclo: true }
                                 }
@@ -257,7 +261,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                             id_periodo: true
                         }
                     })
-                    
+
                     if ((evals == null) || (evals.en_rotacion == 1) || (evals.pendiente == 0 && evals.en_rotacion == 0 && evals.id_modulo == null)) {
                         infos['notevaluated'] = 1
                     } else {

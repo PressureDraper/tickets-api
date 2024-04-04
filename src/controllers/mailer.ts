@@ -13,13 +13,11 @@ export const sendEvaluationEmails = async (req: any, res: Response) => {
         students[0].shift()
         const ccStudents = students[0].toString();
 
-        console.log(mainStudent, ccStudents);
-
         const dir = path.join(__dirname, '../assets/templateMailNotify.html');
 
         const template = format(fs.readFileSync(dir, 'utf8'), { 
             rows: students[1], 
-            especialidad: data.especialidad, 
+            especialidad: data.especialidad,
             ciclo: data.ciclo 
         });
 

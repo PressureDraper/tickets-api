@@ -7,7 +7,8 @@ export interface PropsGetEvaluationQueries {
     moduleFilter: string,
     enrollmentFilter: string,
     cycleFilter: string,
-    cluePending: string
+    cluePending: string,
+    specialtyFilter: string
 }
 
 export interface PropsGetTotalEvaluationsQuery {

@@ -22,7 +22,7 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
                         ced_especialidades: {
                             nombre: specialtyFilter ? {contains: specialtyFilter} : {}
                         },
-                        status: 1 //active
+                        status: 1 //active ones
                     },
                     deleted_at: null
                 },
