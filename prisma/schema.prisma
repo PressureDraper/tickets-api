@@ -28,7 +28,7 @@ model ced_residentes {
   paterno         String    @db.VarChar(20)
   materno         String    @db.VarChar(20)
   nombre          String    @db.VarChar(30)
-  telefono        String?   @db.Char(10)
+  telefono        String?   @db.Char(20)
   curp            String?   @db.Char(18)
   rfc             String?   @db.VarChar(13)
   correo          String?   @db.VarChar(255)

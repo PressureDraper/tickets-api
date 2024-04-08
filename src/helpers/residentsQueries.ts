@@ -57,7 +57,6 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
                     OR: [
                         { matricula },
                         { curp },
-                        { rfc },
                         { correo }
                     ]
                 }

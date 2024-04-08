@@ -9,6 +9,7 @@ boletas_ciclos_admin_ver
 boletas_ciclos_ver
 boletas_ver
 boletas_cedula_ver
+boletas_tools_admin_ver
 
 admin:
 boletas_cedula_admin_ver
