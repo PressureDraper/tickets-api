@@ -323,8 +323,8 @@ if __name__ == "__main__":
             print(f"INSERT INTO ced_per_docente VALUES(DEFAULT, {id_eva}, 43, {fec_creacion}, now(), NULL)")
             cursor2.execute(f"INSERT INTO ced_per_docente VALUES(DEFAULT, {id_eva}, 43, {fec_creacion}, now(), NULL)")
 
-        print(f"INSERT INTO ced_evaluacion VALUES(DEFAULT, {rank}, {act_1}, {act_2}, {act_3}, {act_4}, {act_5}, {act_6}, {act_7}, {act_8}, {act_9}, {act_10}, {act_11}, {act_12}, {act_13}, {act_14}, {act_15}, {act_16}, {total}, {pendiente}, {rotacion}, {faltas}, {fec_ord}, {ex_ord}, {fec_extra}, {ex_extra}, {observaciones}, {enviado}, {visto}, {id_clue}, {id_res}, {id_per}, {id_mod}, {fec_creacion}, now(), NULL)")
-        cursor2.execute(f"INSERT INTO ced_evaluacion VALUES(DEFAULT, {rank}, {act_1}, {act_2}, {act_3}, {act_4}, {act_5}, {act_6}, {act_7}, {act_8}, {act_9}, {act_10}, {act_11}, {act_12}, {act_13}, {act_14}, {act_15}, {act_16}, {total}, {pendiente}, {rotacion}, {faltas}, {fec_ord}, {ex_ord}, {fec_extra}, {ex_extra}, {observaciones}, {enviado}, {visto}, {id_clue}, {id_res}, {id_per}, {id_mod}, {fec_creacion}, now(), NULL)")
+        print(f"INSERT INTO ced_evaluacion VALUES(DEFAULT, {rank}, {act_1}, {act_2}, {act_3}, {act_4}, {act_5}, {act_6}, {act_7}, {act_8}, {act_9}, {act_10}, {act_11}, {act_12}, {act_13}, {act_14}, {act_15}, {act_16}, {total}, {pendiente}, {rotacion}, {faltas}, {fec_ord}, {ex_ord}, {fec_extra}, {ex_extra}, {observaciones}, {enviado}, {visto}, NULL, {id_clue}, {id_res}, {id_per}, {id_mod}, {fec_creacion}, now(), NULL)")
+        cursor2.execute(f"INSERT INTO ced_evaluacion VALUES(DEFAULT, {rank}, {act_1}, {act_2}, {act_3}, {act_4}, {act_5}, {act_6}, {act_7}, {act_8}, {act_9}, {act_10}, {act_11}, {act_12}, {act_13}, {act_14}, {act_15}, {act_16}, {total}, {pendiente}, {rotacion}, {faltas}, {fec_ord}, {ex_ord}, {fec_extra}, {ex_extra}, {observaciones}, {enviado}, {visto}, NULL, {id_clue}, {id_res}, {id_per}, {id_mod}, {fec_creacion}, now(), NULL)")
         id_eva += 1
 
     # -------FIN MIGRACIÓN - APLICAR CAMBIOS-------

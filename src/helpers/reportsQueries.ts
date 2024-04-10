@@ -39,6 +39,8 @@ export const getEvaluationParamsQuery = (params: ReporteMensualCalificaciones) =
                     ex_ord: true,
                     fec_extra: true,
                     ex_extra: true,
+                    visto: true,
+                    fec_visto: true,
                     ced_per_docente: {
                         select: {
                             ced_docentes: {

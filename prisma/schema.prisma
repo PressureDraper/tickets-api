@@ -171,6 +171,7 @@ model ced_evaluacion {
   observaciones   String?   @db.Text
   enviado         Int?      @db.TinyInt
   visto           Int?      @db.TinyInt
+  fec_visto       DateTime? @db.DateTime(0)
   id_clue         Int?      @db.UnsignedInt
   id_residente    Int       @db.UnsignedInt
   id_periodo      Int       @db.UnsignedInt

@@ -42,7 +42,8 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
                         mes: residente.mes,
                         status: estado,
                         rotacion: reg?.en_rotacion == 1 ? true : false,
-                        clue: reg?.id_clue == undefined || reg?.id_clue == null ? null : reg.id_clue 
+                        clue: reg?.id_clue == undefined || reg?.id_clue == null ? null : reg.id_clue,
+                        visto: reg?.visto
                     }
                 })
             )
