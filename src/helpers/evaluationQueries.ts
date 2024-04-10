@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { PropsCreateEvaluationQueries, PropsGetEvaluationQueries, PropsGetInfoEvaluationQuery, PropsGetTotalEvaluationsQuery, PropsUpdateEvaluationQueries } from '../interfaces/evaluationQueries';
 import { db } from "../utils/db";
 
@@ -21,7 +22,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                             ],
                             matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
                             ced_especialidades: {
-                                nombre: specialtyFilter ? { contains: specialtyFilter} : {}
+                                nombre: specialtyFilter ? { contains: specialtyFilter } : {}
                             },
                             /* status: 1 */
                         },
@@ -64,6 +65,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         observaciones: true,
                         enviado: true,
                         visto: true,
+                        fec_visto: true,
                         id_clue: true,
                         ced_residentes: {
                             select: {
@@ -147,6 +149,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         observaciones: true,
                         enviado: true,
                         visto: true,
+                        fec_visto: true,
                         id_clue: true,
                         ced_residentes: {
                             select: {
@@ -326,6 +329,7 @@ export const createEvaluationQuery = ({
     observaciones,
     enviado,
     visto,
+    fec_visto,
     id_clue,
     id_residente,
     id_periodo,
@@ -374,6 +378,7 @@ export const createEvaluationQuery = ({
                         observaciones,
                         enviado,
                         visto,
+                        fec_visto: null,
                         id_clue,
                         id_residente,
                         id_periodo,
@@ -438,6 +443,7 @@ export const updateEvaluationQuery = ({
     observaciones,
     enviado,
     visto,
+    fec_visto,
     id_clue,
     id_residente,
     id_periodo,
@@ -489,6 +495,7 @@ export const updateEvaluationQuery = ({
                         observaciones,
                         enviado,
                         visto,
+                        fec_visto: fec_visto && moment.utc(fec_visto).toISOString(),
                         id_clue,
                         id_residente,
                         id_periodo,
