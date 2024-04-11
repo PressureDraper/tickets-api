@@ -1,3 +1,4 @@
+import moment from "moment";
 import { ArrayResidentsEvaluation, PropsGetResidentsEvaluationQueries } from "../interfaces/evaluationStatusQueries";
 import { db } from "../utils/db";
 
@@ -34,6 +35,7 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
 
                     return {
                         id: residente.id,
+                        id_eval: reg?.id,
                         matricula: residente.matricula,
                         nombre: residente.nombre,
                         especialidad: residente.especialidad,
@@ -43,7 +45,9 @@ export const getStatusEvaluationQuery = async (data: ArrayResidentsEvaluation) =
                         status: estado,
                         rotacion: reg?.en_rotacion == 1 ? true : false,
                         clue: reg?.id_clue == undefined || reg?.id_clue == null ? null : reg.id_clue,
-                        visto: reg?.visto
+                        visto: reg?.visto,
+                        fec_visto: reg?.visto == 1 ? moment.utc(reg.fec_visto).format('YYYY-MM-DD h:mm:ss a') : null,
+                        enviado: reg?.enviado
                     }
                 })
             )
