@@ -37,8 +37,8 @@ export const sendEvaluationEmails = async (req: any, res: Response) => {
 
         const info = await transporter.sendMail({
             from: '"Centro de Alta Especialidad Dr. Rafael Lucio" <cae.residencia@gmail.com>', // sender address
-            to: mainStudent, // list of receivers
-            cc: ccStudents,
+            to: mainStudent, // main receiver
+            cc: ccStudents, // list of receivers
             subject: "Evaluación Integral", // Subject line
             html: template, // html body
         });
