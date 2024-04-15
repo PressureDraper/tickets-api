@@ -241,7 +241,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
 
             const array = await Promise.all(
                 totalResidents.map(async (res: any) => {
-                    let infos = { notevaluated: 0, pending: 0, completed: 0 }
+                    let infos = { notevaluated: 0, pending: 0, completed: 0, rotation: 0 }
                     let evals = await db.ced_evaluacion.findFirst({
                         where: {
                             id_residente: res.id_residente,
@@ -265,13 +265,15 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                         }
                     })
 
-                    if ((evals == null) || (evals.en_rotacion == 1) || (evals.pendiente == 0 && evals.en_rotacion == 0 && evals.id_modulo == null)) {
+                    if ((evals == null) || (evals.pendiente == 0 && evals.en_rotacion == 0 && evals.id_modulo == null)) {
                         infos['notevaluated'] = 1
                     } else {
                         if (evals.pendiente == 1 && evals.en_rotacion == 0) {
                             infos['pending'] = 1
                         } else if (evals.id_residente != null && evals.id_periodo != null && evals.id_modulo != null && evals.pendiente == 0) {
                             infos['completed'] = 1
+                        } else if (evals.en_rotacion == 1) {
+                            infos['rotation'] = 1
                         }
                     }
 
@@ -279,7 +281,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                 })
             )
 
-            let infos = { notevaluated: 0, pending: 0, completed: 0 }
+            let infos = { notevaluated: 0, pending: 0, completed: 0, rotation: 0 }
 
             array.forEach((val) => {
                 if (val.notevaluated == 1) {
@@ -288,6 +290,8 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                     infos['pending'] = infos['pending'] + 1
                 } else if (val.completed == 1) {
                     infos['completed'] = infos['completed'] + 1
+                } else if (val.rotation == 1) {
+                    infos['rotation'] = infos['rotation'] + 1
                 }
 
             })
