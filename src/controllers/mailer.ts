@@ -1,9 +1,28 @@
 import { Response } from "express";
 import nodemailer from "nodemailer";
-import { getEvaluatedStudents } from "../helpers/mailerQueries";
+import { getEvaluatedStudents, getStudentsToMailQuery } from "../helpers/mailerQueries";
 import path from "path";
 import format from 'string-template';
 import fs from 'fs';
+import { PropsMailerQuery } from "../interfaces/evaluationQueries";
+
+export const getStudentsToMail = async (req: any, res: Response) => {
+    try {
+        const params: PropsMailerQuery = req.query;
+        const count: number = await getStudentsToMailQuery(params);
+        res.status(200).json({
+            ok: true,
+            msg: 'Ok',
+            data: count
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            ok: false,
+            msg: 'Server error contact the administrator'
+        });
+    }
+}
 
 export const sendEvaluationEmails = async (req: any, res: Response) => {
     try {
@@ -15,10 +34,10 @@ export const sendEvaluationEmails = async (req: any, res: Response) => {
 
         const dir = path.join(__dirname, '../assets/templateMailNotify.html');
 
-        const template = format(fs.readFileSync(dir, 'utf8'), { 
-            rows: students[1], 
+        const template = format(fs.readFileSync(dir, 'utf8'), {
+            rows: students[1],
             especialidad: data.especialidad,
-            ciclo: data.ciclo 
+            ciclo: data.ciclo
         });
 
         const transporter = nodemailer.createTransport({

@@ -3,6 +3,35 @@ import { db } from "../utils/db";
 import _ from 'lodash';
 import { generateHtmlMailInfo } from "./mailerHtmlFormat";
 
+export const getStudentsToMailQuery = async ({ ciclo, mes, especialidad }: PropsMailerQuery): Promise<number> => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const studentsToMail = await db.ced_evaluacion.count({
+                where: {
+                    ced_periodo: {
+                        ced_ciclo: {
+                            ciclo: ciclo ? { contains: ciclo } : {}
+                        }
+                    },
+                    ced_residentes: {
+                        ced_especialidades: {
+                            nombre: especialidad ? { contains: especialidad } : {}
+                        },
+                        status: 1
+                    },
+                    pendiente: 0,
+                    en_rotacion: 0,
+                    enviado: 0
+                }
+            });
+            
+            resolve(studentsToMail);
+        } catch (error) {
+            reject(error);
+        }
+    })
+}
+
 export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMailerQuery) => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -61,7 +90,7 @@ export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMa
 
                 return {
                     meses,
-                    nombre: item[0].ced_residentes.nombre + ' ' + item[0].ced_residentes.paterno + ' ' + item[0].ced_residentes.materno 
+                    nombre: item[0].ced_residentes.nombre + ' ' + item[0].ced_residentes.paterno + ' ' + item[0].ced_residentes.materno
                 }
             });
 
@@ -74,7 +103,7 @@ export const getEvaluatedStudents = async ({ ciclo, mes, especialidad }: PropsMa
             let evaluaciones = entries.map((entry: any) => {
                 return entry[1]
             })
-            
+
             const htmlGen = generateHtmlMailInfo(evaluaciones);
 
             //update evaluations to 'sent = 1' status
