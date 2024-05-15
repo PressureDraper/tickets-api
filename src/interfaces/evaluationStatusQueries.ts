@@ -11,3 +11,10 @@ export interface PropsGetResidentsEvaluationQueries {
 export interface ArrayResidentsEvaluation {
     data: string;
 }
+
+export interface PropsGetResidentsPerStatusQueries {
+    status: string;
+    mes: string;
+    ciclo: string;
+    especialidad: string
+}

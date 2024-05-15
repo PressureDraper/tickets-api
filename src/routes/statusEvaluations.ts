@@ -1,9 +1,10 @@
 import { Router } from "express";
-import { getStatusEvaluation } from "../controllers/evaluationStatus";
+import { getResidentsPerStatusData, getStatusEvaluation } from "../controllers/evaluationStatus";
 
 const router = Router();
 
 
 router.get('/', getStatusEvaluation);
+router.get('/residentStatus', getResidentsPerStatusData);
 
 export default router;
