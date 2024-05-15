@@ -248,7 +248,7 @@ export const getTotalInfoEvaluationQuery = ({ cycleFilter = '', specialtyFilter 
                             ced_periodo: {
                                 mes: periodidFilter,
                                 id_ciclo: res.id_ciclo
-                            }
+                            },
                         },
                         select: {
                             ced_residentes: {
