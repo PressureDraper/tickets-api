@@ -100,15 +100,9 @@ export const updateTeacherQuery = ({ matricula, paterno, materno, nombre, tipo_p
                 }
             });
 
-            const repeated: any = await db.ced_residentes.findFirst({ //check if registry already exists
-                where: {
-                    matricula
-                }
-            });
-
             let data;
 
-            record != null && repeated === null ? ( //check if ID exists and data isn't repeated
+            record != null ? ( //check if ID exists and data isn't repeated
                 await db.ced_docentes.update({
                     where: {
                         id: teacher_id
