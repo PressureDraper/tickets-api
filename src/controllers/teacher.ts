@@ -50,7 +50,7 @@ export const updateTeacher = async (req: any, res: Response) => {
     try {
         const id: number = parseInt(req.params.id);
         const data: PropsUpdateTeachersQueries = req.payload;
-        const state: any = await updateTeacherQuery({ ...data, teacher_id: id })
+        const state: any = await updateTeacherQuery({ ...data, teacher_id: id });
 
         Object.keys(data).length !== 0 ? (
             state[0] ?
