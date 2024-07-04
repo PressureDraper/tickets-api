@@ -26,15 +26,15 @@ def numberFormat(value):
 if __name__ == "__main__":
     # ---Connection---
     database = mysql.connector.connect(
-        host="10.30.0.7", user="server7", passwd="Siscem1037", database="bd_cae")
+        host="host", user="user", passwd="passwd", database="db")
     
     #-----beta pruebas----
     """ database2 = mysql.connector.connect(
-        host="127.0.0.1", user="root", passwd="siscae1035", database="boletas", port="3316") """
+        host="host", user="user", passwd="passwd", database="db") """
     
     #-----localhost----
     database2 = mysql.connector.connect(
-        host="127.0.0.1", user="root", passwd="siscae1035", database="boletas", port="3306")
+        host="host", user="user", passwd="passwd", database="db")
 
     # ---Create cursor to manipulate consults---
     cursor = database.cursor(buffered=True)
