@@ -11,6 +11,9 @@ export interface PropsGetResPerCycleQueries {
 export interface PropsGetTotalResPerCycleQueries {
     cycleFilter: string;
     specialtyFilter: string;
+    enrollmentFilter: string;
+    nameFilter: string;
+    rankFilter: string;
 }
 
 export interface PropsCreateResPerCycleQueries {

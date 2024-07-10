@@ -32,6 +32,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                             },
                             mes: monthFilter ? { contains: monthFilter } : {},
                         },
+                        en_rotacion: 0,
                         pendiente: 0,
                         deleted_at: null
                     },
@@ -94,7 +95,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         }
                     },
                     orderBy: {
-                        id: "desc"
+                        id: 'desc'
                     },
                     skip: min,
                     take: rowsPerPage
@@ -178,7 +179,7 @@ export const getEvaluationQuery = ({ page = '0', limit = '10', residentidFilter,
                         }
                     },
                     orderBy: {
-                        id: "desc"
+                        id: 'desc'
                     },
                     skip: min,
                     take: rowsPerPage
