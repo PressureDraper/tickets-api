@@ -20,7 +20,7 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
                         ],
                         matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
                         ced_especialidades: {
-                            nombre: specialtyFilter ? {contains: specialtyFilter} : {}
+                            nombre: specialtyFilter ? { contains: specialtyFilter } : {}
                         },
                         status: 1 //active ones
                     },
@@ -48,7 +48,7 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
                     }
                 },
                 orderBy: {
-                    id: 'desc'
+                    grado_residente: 'asc'
                 },
                 skip: min,
                 take: rowsPerPage
@@ -61,16 +61,23 @@ export const getResPerCycleQuery = ({ limit = '10', page = '0', rankFilter = '',
     })
 }
 
-export const getTotalResPerCycle = ({ cycleFilter, specialtyFilter = '' }: PropsGetTotalResPerCycleQueries) => {
+export const getTotalResPerCycle = ({ cycleFilter, specialtyFilter = '', enrollmentFilter = '', nameFilter = '', rankFilter = '' }: PropsGetTotalResPerCycleQueries) => {
     return new Promise(async (resolve, reject) => {
         try {
             let countListRes = await db.ced_per_ciclo.count({
                 where: {
                     id_ciclo: cycleFilter ? parseInt(cycleFilter) : {},
+                    grado_residente: rankFilter ? { contains: rankFilter } : {},
                     ced_residentes: {
                         ced_especialidades: {
                             nombre: specialtyFilter ? { contains: specialtyFilter } : {}
                         },
+                        OR: [
+                            { nombre: { contains: nameFilter } },
+                            { paterno: { contains: nameFilter } },
+                            { materno: { contains: nameFilter } }
+                        ],
+                        matricula: enrollmentFilter ? parseInt(enrollmentFilter) : {},
                         status: 1 //active
                     },
                     deleted_at: null
