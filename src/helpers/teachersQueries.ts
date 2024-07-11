@@ -1,4 +1,3 @@
-import { toString } from "express-validator/src/utils";
 import { PropsCreateTeachersQueries, PropsGetTeachersQueries, PropsUpdateTeachersQueries } from "../interfaces/teachersQueries";
 import { db } from "../utils/db";
 
@@ -59,7 +58,7 @@ export const createTeachersQuery = ({ matricula, paterno, materno, nombre, tipo_
 
             const code: any = await db.ced_especialidades.findFirst({
                 where: {
-                    codigo: toString(codigo)
+                    codigo: codigo.toString()
                 },
                 select: {
                     id: true

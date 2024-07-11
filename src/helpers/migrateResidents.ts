@@ -1,5 +1,3 @@
-import { toString } from "express-validator/src/utils";
-
 export const migrateCycle = (regs: any) => {
     let rank;
     let upgrade;
@@ -10,7 +8,7 @@ export const migrateCycle = (regs: any) => {
         rank = regs[key]['grado_residente'].split('R');
         rank = parseInt(rank[1]);
         rank = rank + 1;
-        rank = 'R' + toString(rank);
+        rank = 'R' + rank.toString();
         regs[key]['grado_residente'] = rank;
         upgrade = regs[key]
         return upgrade
