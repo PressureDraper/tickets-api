@@ -1,4 +1,3 @@
-import { toString } from "express-validator/src/utils";
 import { PropsCreateResidentsQueries, PropsGetResidentsQueries, PropsUpdateResidentsQueries } from "../interfaces/residentsQueries";
 import { db } from "../utils/db";
 
@@ -64,7 +63,7 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
 
             const code: any = await db.ced_especialidades.findFirst({
                 where: {
-                    codigo: toString(codigo)
+                    codigo: codigo.toString()
                 },
                 select: {
                     id: true
