@@ -66,7 +66,7 @@ export const htmlParams = (params: ReporteMensualCalificaciones, query: any) => 
         cal_total: query.ex_extra != null ? (parseFloat(query.ex_ord).toFixed(2) > parseFloat(query.ex_extra).toFixed(2) ? parseFloat(query.ex_ord).toFixed(2) : parseFloat(query.ex_extra).toFixed(2)) : parseFloat(query.ex_ord).toFixed(2),
         total_porcentaje: (totala + totalb + parseFloat(query.act_16)).toFixed(2),
         observaciones: query.observaciones == null ? ' ' : query.observaciones,
-        fec_visto: query.visto == 1 ? moment.utc(query.fec_visto).format('YYYY-MM-DD h:mm:ss a') : '-',
+        fec_visto: query.visto == 1 ? (query.fec_visto != null ? moment.utc(query.fec_visto).format('YYYY-MM-DD h:mm:ss a') : '-') : '-',
         act1: parseFloat(query.act_1).toFixed(2),
         act2: parseFloat(query.act_2).toFixed(2),
         act3: parseFloat(query.act_3).toFixed(2),

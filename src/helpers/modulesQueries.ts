@@ -1,3 +1,4 @@
+import moment from "moment";
 import { PropsCreateModuleQuery, PropsGetModulesQuery, PropsGetTotalModulesQuery, PropsUpdateModuleQuery } from "../interfaces/modulesQueries";
 import { db } from "../utils/db";
 
@@ -70,7 +71,9 @@ export const createModuleQuery = ({ modulo, grado }: PropsCreateModuleQuery) => 
                 let record = await db.ced_modulo.create({
                     data: {
                         modulo,
-                        grado
+                        grado,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -109,7 +112,8 @@ export const updateModuleQuery = ({ modulo, grado, module_id }: PropsUpdateModul
                     },
                     data: {
                         modulo,
-                        grado
+                        grado,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_modulo.findUnique({
@@ -142,7 +146,7 @@ export const deleteModuleQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 

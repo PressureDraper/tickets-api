@@ -1,3 +1,4 @@
+import moment from "moment";
 import { PropsCreateResidentsQueries, PropsGetResidentsQueries, PropsUpdateResidentsQueries } from "../interfaces/residentsQueries";
 import { db } from "../utils/db";
 
@@ -86,7 +87,9 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
                         rfc,
                         correo,
                         status,
-                        id_especialidad: id
+                        id_especialidad: id,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -133,7 +136,8 @@ export const updateResidentQuery = ({ matricula, paterno, materno, nombre, telef
                         curp,
                         rfc,
                         correo,
-                        status
+                        status,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_residentes.findUnique({
@@ -167,7 +171,7 @@ export const deleteResidentQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 

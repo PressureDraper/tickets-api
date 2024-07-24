@@ -387,7 +387,9 @@ export const createEvaluationQuery = ({
                         id_clue,
                         id_residente,
                         id_periodo,
-                        id_modulo
+                        id_modulo,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 });
 
@@ -504,7 +506,8 @@ export const updateEvaluationQuery = ({
                         id_clue,
                         id_residente,
                         id_periodo,
-                        id_modulo
+                        id_modulo,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 id_docentes?.forEach(async (doc: number) => {
@@ -555,7 +558,7 @@ export const deleteEvaluationQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 

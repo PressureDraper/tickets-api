@@ -1,5 +1,6 @@
 import { db } from "../utils/db";
 import { PropsCreateSpecialtyQuery, PropsGetSpecialtiesQuery, PropsGetTotalSpecialtiesQuery, PropsUpdateSpecialtyQuery } from '../interfaces/specialtiesQueries';
+import moment from "moment";
 
 export const getSpecialtiesQuery = ({ nameFilter = '', codeFilter = '', rankFilter = '' }: PropsGetSpecialtiesQuery) => {
     return new Promise(async (resolve, reject) => {
@@ -72,7 +73,9 @@ export const createSpecialtyQuery = ({ nombre, codigo, grado_maximo }: PropsCrea
                     data: {
                         nombre,
                         codigo,
-                        grado_maximo
+                        grado_maximo,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -111,7 +114,8 @@ export const updateSpecialtyQuery = ({ nombre, codigo, grado_maximo, specialty_i
                     data: {
                         nombre,
                         codigo,
-                        grado_maximo
+                        grado_maximo,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_especialidades.findUnique({
@@ -146,7 +150,7 @@ export const deleteSpecialtyQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 
