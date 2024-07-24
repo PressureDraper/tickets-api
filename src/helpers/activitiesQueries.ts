@@ -1,5 +1,6 @@
 import { db } from "../utils/db";
 import { PropsCreateActivitiesQueries, PropsGetActivitiesQueries, PropsUpdateActivitiesQueries } from '../interfaces/activitiesQueries';
+import moment from "moment";
 
 export const getActivitiesQuery = ({ page = '0', limit = '10', descriptionFilter = '' }: PropsGetActivitiesQueries) => {
     return new Promise(async (resolve, reject) => {
@@ -76,7 +77,9 @@ export const createActivityQuery = ({descripcion, excelente, bueno, regular, def
                         bueno,
                         regular,
                         deficiente,
-                        muy_deficiente
+                        muy_deficiente,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -120,7 +123,8 @@ export const updateActivityQuery = ({ descripcion, excelente, bueno, regular, de
                         bueno,
                         regular,
                         deficiente,
-                        muy_deficiente
+                        muy_deficiente,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_actividades.findUnique({
@@ -153,7 +157,7 @@ export const deleteActivityQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 

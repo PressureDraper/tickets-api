@@ -1,3 +1,4 @@
+import moment from "moment";
 import { PropsCreateTeachersQueries, PropsGetTeachersQueries, PropsUpdateTeachersQueries } from "../interfaces/teachersQueries";
 import { db } from "../utils/db";
 
@@ -79,7 +80,9 @@ export const createTeachersQuery = ({ matricula, paterno, materno, nombre, tipo_
                         tipo_profesor,
                         correo,
                         status,
-                        id_especialidad: id
+                        id_especialidad: id,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -113,7 +116,8 @@ export const updateTeacherQuery = ({ matricula, paterno, materno, nombre, tipo_p
                         nombre,
                         tipo_profesor,
                         correo,
-                        status
+                        status,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_docentes.findUnique({
@@ -147,7 +151,7 @@ export const deleteTeacherQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 

@@ -1,3 +1,4 @@
+import moment from "moment";
 import { PropsCreateResPerCycleQueries, PropsGetResPerCycleQueries, PropsGetTotalResPerCycleQueries, PropsUpdateResPerCycleQueries } from "../interfaces/resPerCycleQueries";
 import { db } from "../utils/db";
 import { migrateCycle } from "./migrateResidents";
@@ -113,7 +114,9 @@ export const createResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente
                     data: {
                         grado_residente,
                         id_ciclo,
-                        id_residente
+                        id_residente,
+                        created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 })
                 resolve(record);
@@ -165,7 +168,9 @@ export const migrateResPerCycleQuery = (id: number) => {
                             data: {
                                 grado_residente: elm['grado_residente'],
                                 id_ciclo: id + 1,
-                                id_residente: elm['id_residente']
+                                id_residente: elm['id_residente'],
+                                created_at: moment.utc().subtract(6, 'hour').toISOString(),
+                                updated_at: moment.utc().subtract(6, 'hour').toISOString()
                             }
                         })
                     }),
@@ -199,7 +204,8 @@ export const updateResPerCycleQuery = ({ grado_residente, id_ciclo, id_residente
                     data: {
                         grado_residente,
                         id_ciclo: id_ciclo,
-                        id_residente: id_residente
+                        id_residente: id_residente,
+                        updated_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
                 data = await db.ced_per_ciclo.findUnique({
@@ -233,7 +239,7 @@ export const deleteResPerCycleQuery = (id: number) => {
                         id
                     },
                     data: {
-                        deleted_at: new Date().toISOString()
+                        deleted_at: moment.utc().subtract(6, 'hour').toISOString()
                     }
                 }),
 
