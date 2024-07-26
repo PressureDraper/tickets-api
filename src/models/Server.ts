@@ -4,6 +4,7 @@ import { createServer } from 'https';
 import http from 'http';
 import fs from 'fs';
 import cors from 'cors';
+import routerBase from '../routes/base';
 import routerSpecialties from '../routes/specialties';
 import routerModules from '../routes/modules';
 import routerCycles from '../routes/cycles';
@@ -15,7 +16,7 @@ import routerEvaluations from '../routes/evaluations'
 import routerStatus from '../routes/statusEvaluations';
 import routerReports from '../routes/reports';
 import routerMailer from '../routes/mailer';
-import routerEmployee from '../routes/sicaEmployee'
+import routerEmployee from '../routes/sicaEmployee';
 
 class Server {
     private app: Express;
@@ -35,6 +36,7 @@ class Server {
     middlewares() {
         this.app.use( express.json() );
         this.app.use( cors( { origin: '*' } ) );
+        this.app.use( '/', routerBase );
         this.app.use( '/api/specialties', routerSpecialties );
         this.app.use( '/api/modules', routerModules);
         this.app.use( '/api/cycles', routerCycles);
