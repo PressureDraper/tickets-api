@@ -16,7 +16,6 @@ import routerEvaluations from '../routes/evaluations'
 import routerStatus from '../routes/statusEvaluations';
 import routerReports from '../routes/reports';
 import routerMailer from '../routes/mailer';
-import routerEmployee from '../routes/sicaEmployee';
 
 class Server {
     private app: Express;
@@ -48,7 +47,6 @@ class Server {
         this.app.use('/api/status', routerStatus);
         this.app.use('/api/reportes', routerReports);
         this.app.use('/api/mailer', routerMailer);
-        this.app.use('/api/sicaemployee', routerEmployee);
     }
 
     execute() {
