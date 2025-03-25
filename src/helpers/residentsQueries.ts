@@ -69,7 +69,7 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
                 select: {
                     id: true
                 }
-            });
+            });            
 
             const { id } = code;
 
@@ -95,6 +95,7 @@ export const createResidentsQuery = ({ matricula, paterno, materno, nombre, tele
                 resolve(record);
             }
         } catch (error) {
+            console.log(error);
             reject(error);
         }
     })
