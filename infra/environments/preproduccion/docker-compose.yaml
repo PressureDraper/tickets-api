@@ -1,0 +1,24 @@
+services:
+  app:
+    image: registry.ssaver.gob.mx:5000/boletas-api:latest-pre
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    deploy:
+      replicas: 1
+    secrets:
+      - source: ssaver_crt
+        target: /cert/ssaver.gob.mx.crt
+      - source: ssaver_key
+        target: /cert/ssaver.gob.mx.key
+    networks:
+      - cae-services
+
+networks:
+  cae-services:
+    external: true
+
+secrets:
+  ssaver_key:
+    external: true
+  ssaver_crt:
+    external: true
