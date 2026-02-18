@@ -14,7 +14,7 @@ RUN tsc || true
 
 FROM node:20.6.1-bullseye-slim AS prod
 WORKDIR /app
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 RUN apt-get update \
     && apt-get install -y wget gnupg \
