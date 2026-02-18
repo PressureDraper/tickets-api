@@ -3,3 +3,7 @@ node_modules
 .env
 storage/*
 build/*
+infra/cert
+infra/environments/preproduccion/.env_api
+infra/environments/produccion/.env_api
+
