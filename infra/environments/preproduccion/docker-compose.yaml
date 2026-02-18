@@ -1,6 +1,6 @@
 services:
   app:
-    image: registry.ssaver.gob.mx:5000/boletas-api:latest-pre
+    image: registry.ssaver.gob.mx:5000/boletas-api:latest-test
     volumes:
       - /etc/localtime:/etc/localtime:ro
     deploy:
