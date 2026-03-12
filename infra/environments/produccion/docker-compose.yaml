@@ -1,30 +1,24 @@
 services:
-  api-boletas:
-    image: registry.ssaver.gob.mx:5000/boletas-api:latest
-    container_name: boletas-api
-    restart: unless-stopped
-    cap_add:
-      - SYS_ADMIN
-    ports:
-      - 6888:9000
+  app:
+    image: registrygitlab.ssaver.gob.mx/boletas/api-boletas/app:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
-    depends_on:
-      - db
-  db:
-    image: mariadb:10.7.1
-    container_name: boletas-db
-    restart: unless-stopped
-    ports:
-      - 3316:3306
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - boletas_db:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD_ROOT}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    deploy:
+      replicas: 1
+    secrets:
+      - source: 2025ssaver_crt_complete
+        target: /cert/ssaver.gob.mx.crt
+      - source: 2025ssaver_key
+        target: /cert/ssaver.gob.mx.key
+    networks:
+      - cae-services-prod
 
-volumes:
-  boletas_db:
+networks:
+  cae-services-prod:
+    external: true
+
+secrets:
+  2025ssaver_key:
+    external: true
+  2025ssaver_crt_complete:
+    external: true
