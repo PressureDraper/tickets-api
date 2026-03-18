@@ -25,4 +25,4 @@ deploy-app-pre:
         - job: build-app
           artifacts: true
     variables:
-        SERVICE_NAME: "api-boletas_app"
+        SERVICE_NAME: "api-boletaspre_app"
