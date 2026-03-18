@@ -1,7 +1,7 @@
 #! /bin/bash
 
 IMAGES=(
-    "app=registry.ssaver.gob.mx:5000/boletas-api:latest=Dockerfile"
+    "app=registrygitlab.ssaver.gob.mx/boletas/api-boletas/app:latest=Dockerfile"
 )
 
 GREEN="\033[1;32m"
