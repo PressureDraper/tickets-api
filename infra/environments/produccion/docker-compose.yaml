@@ -3,6 +3,8 @@ services:
     image: registrygitlab.ssaver.gob.mx/boletas/api-boletas/app:latest
     volumes:
       - /etc/localtime:/etc/localtime:ro
+    cap_add:
+      - SYS_ADMIN
     deploy:
       replicas: 1
     secrets:
