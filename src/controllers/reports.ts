@@ -25,6 +25,10 @@ export const getPdfReport = async (req: any, res: Response) => {
 
         const browser = await puppeteer.launch({
             executablePath: puppeteer.executablePath(),
+            args: [
+                '--no-sandbox',
+                '--disable-setuid-sandbox',
+            ]
         });
         const page = await browser.newPage();
 
@@ -37,7 +41,7 @@ export const getPdfReport = async (req: any, res: Response) => {
             format: 'Letter',
             printBackground: true
         });
-        
+
         await browser.close();
 
         res.contentType("application/pdf");

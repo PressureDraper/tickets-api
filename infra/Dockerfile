@@ -6,7 +6,7 @@ RUN npm install
 RUN npx prisma generate --schema prisma/schema.prisma
 # RUN npx prisma generate --schema prisma/schema2.prisma
 
-FROM node:18.17.1-alpine3.18 AS builder
+FROM node:24.11-alpine3.23 AS builder
 WORKDIR /app
 COPY --chown=node --from=deps /app/node_modules/ ./node_modules/
 COPY . .
