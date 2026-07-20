@@ -1,4 +1,4 @@
-FROM node:20.6.1-bullseye-slim AS deps
+FROM node:24.11-alpine3.23 AS deps
 WORKDIR /app
 COPY package.json .
 COPY prisma/ ./prisma
@@ -6,13 +6,13 @@ RUN npm install
 RUN npx prisma generate --schema prisma/schema.prisma
 # RUN npx prisma generate --schema prisma/schema2.prisma
 
-FROM node:20.6.1-bullseye-slim AS builder
+FROM node:18.17.1-alpine3.18 AS builder
 WORKDIR /app
 COPY --chown=node --from=deps /app/node_modules/ ./node_modules/
 COPY . .
 RUN npm run build
 
-FROM node:20.6.1-bullseye-slim AS prod
+FROM node:24.11.1-bullseye AS prod AS prod
 WORKDIR /app
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
@@ -31,7 +31,8 @@ COPY --chown=node --from=builder /app/build ./build/
 COPY --chown=node src/assets /app/build/assets/
 COPY --chown=node:node /infra/cert/ /cert/
 
-RUN npx puppeteer browsers install chrome
 EXPOSE 9000
 USER node
+RUN npx puppeteer browsers install chrome
+
 CMD [ "node", "build/index.js" ]
