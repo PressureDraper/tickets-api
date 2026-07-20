@@ -24,7 +24,7 @@ export const getPdfReport = async (req: any, res: Response) => {
         let stringParams = htmlParams(params, query);
 
         const browser = await puppeteer.launch({
-            executablePath: "/usr/bin/google-chrome",
+            executablePath: puppeteer.executablePath(),
         });
         const page = await browser.newPage();
 
