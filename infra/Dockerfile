@@ -12,7 +12,7 @@ COPY --chown=node --from=deps /app/node_modules/ ./node_modules/
 COPY . .
 RUN npm run build
 
-FROM node:24.11.1-bullseye AS prod AS prod
+FROM node:24.11.1-bullseye AS prod
 WORKDIR /app
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
